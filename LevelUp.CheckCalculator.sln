@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelUp.CheckCalculator", "LevelUp.CheckCalculator\LevelUp.CheckCalculator.csproj", "{5EC310C7-20FF-438D-A588-902D3F386614}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelUp.CheckCalculator.Tests", "LevelUp.CheckCalculator.Tests\LevelUp.CheckCalculator.Tests.csproj", "{4559AC5A-0BC2-4D80-BA45-B122DDDF4000}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5EC310C7-20FF-438D-A588-902D3F386614}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EC310C7-20FF-438D-A588-902D3F386614}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EC310C7-20FF-438D-A588-902D3F386614}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4559AC5A-0BC2-4D80-BA45-B122DDDF4000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4559AC5A-0BC2-4D80-BA45-B122DDDF4000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4559AC5A-0BC2-4D80-BA45-B122DDDF4000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4559AC5A-0BC2-4D80-BA45-B122DDDF4000}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
