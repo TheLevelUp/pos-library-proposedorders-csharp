@@ -46,15 +46,15 @@ namespace LevelUp.CheckCalculator
         /// <param name="exemptedItemsTotalInDollars">Total cost of all exempted items on the check in dollars</param>
         /// <returns>The LevelUp discount to apply in dollars</returns>
         /// <see cref="http://developer.thelevelup.com/api-reference/v14/merchant-funded-credit/"/>
-        public static decimal CalculateDiscountToApply(int merchantFundedCreditAvailableInDollars,
-            int paymentAmountInDollars,
-            int amountDueInDollars,
-            int taxAmountDueInDollars,
-            int exemptedItemsTotalInDollars)
+        public static decimal CalculateDiscountToApply(int discountAvailableAmount,
+            int spendAmount,
+            int checkTotalAmount,
+            int taxAmount,
+            int exemptionAmount)
         {
-            int amountDueLessTax = amountDueInDollars - taxAmountDueInDollars;
+            int amountDueLessTax = checkTotalAmount - taxAmount;
 
-            int paymentRequested = Math.Max(0, Math.Min(paymentAmountInDollars, amountDueLessTax));
+            int paymentRequested = Math.Max(0, Math.Min(spendAmount, amountDueLessTax));
 
             if (paymentRequested < amountDueLessTax)
             {
@@ -62,11 +62,11 @@ namespace LevelUp.CheckCalculator
 
                 // if attempting a partial payment, reduce the exemption considered against the payment amount
                 // by the difference between that payment amount and the actual total due
-                exemptedItemsTotalInDollars = Math.Max(0, exemptedItemsTotalInDollars - exemptionAmountToIgnore);
+                exemptionAmount = Math.Max(0, exemptionAmount - exemptionAmountToIgnore);
             }
 
-            return Math.Min(merchantFundedCreditAvailableInDollars,
-                Math.Max(0, paymentRequested - exemptedItemsTotalInDollars));
+            return Math.Min(discountAvailableAmount,
+                Math.Max(0, paymentRequested - exemptionAmount));
         }
     }
 }
