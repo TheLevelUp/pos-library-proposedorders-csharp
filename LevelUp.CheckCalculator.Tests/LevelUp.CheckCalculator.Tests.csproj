@@ -46,10 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculatorTests.cs" />
-    <Compile Include="Calculator\UpdateExemptionAmountTests.cs" />
-    <Compile Include="Calculator\UpdateSpendAmountTests.cs" />
-    <Compile Include="Calculator\UpdateTaxAmountTests.cs" />
+    <Compile Include="UpdateExemptionAmountTests.cs" />
+    <Compile Include="UpdateSpendAmountTests.cs" />
+    <Compile Include="UpdateTaxAmountTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

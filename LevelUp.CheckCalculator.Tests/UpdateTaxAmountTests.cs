@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LevelUp.CheckCalculator.Tests.Calculator
+namespace LevelUp.CheckCalculator.Tests
 {
     [TestClass]
     public class UpdateTaxAmountTests
@@ -13,7 +13,7 @@ namespace LevelUp.CheckCalculator.Tests.Calculator
             int amountUserIsPaying = 1000;
             int taxAmount = 100;
 
-            CheckCalculator.Calculator.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck, taxAmount)
+            Calculator.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck, taxAmount)
                 .Should().Be(taxAmount);
         }
 
@@ -24,7 +24,7 @@ namespace LevelUp.CheckCalculator.Tests.Calculator
             int amountUserIsPaying = 500;
             int taxAmount = 100;
 
-            CheckCalculator.Calculator.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck,taxAmount)
+            Calculator.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck,taxAmount)
                 .Should().Be(0);
         }
 
@@ -35,7 +35,7 @@ namespace LevelUp.CheckCalculator.Tests.Calculator
             int amountUserIsPaying = 950;
             int taxAmount = 100;
 
-            CheckCalculator.Calculator.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck, taxAmount)
+            Calculator.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck, taxAmount)
                 .Should().Be(50);
         }
     }

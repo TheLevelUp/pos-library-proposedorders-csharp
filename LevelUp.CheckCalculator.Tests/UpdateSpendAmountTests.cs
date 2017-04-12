@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LevelUp.CheckCalculator.Tests.Calculator
+namespace LevelUp.CheckCalculator.Tests
 {
     [TestClass]
     public class UpdateSpendAmountTests
@@ -13,7 +13,7 @@ namespace LevelUp.CheckCalculator.Tests.Calculator
         {
             const int PAYMENT_AMOUNT_REQUESTED = SPEND;
 
-            CheckCalculator.Calculator.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(SPEND);
+            Calculator.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(SPEND);
         }
 
         [TestMethod]
@@ -21,7 +21,7 @@ namespace LevelUp.CheckCalculator.Tests.Calculator
         {
             const int PAYMENT_AMOUNT_REQUESTED = SPEND + 200;
 
-            CheckCalculator.Calculator.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(SPEND);
+            Calculator.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(SPEND);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace LevelUp.CheckCalculator.Tests.Calculator
         {
             const int PAYMENT_AMOUNT_REQUESTED = SPEND - 200;
 
-            CheckCalculator.Calculator.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(PAYMENT_AMOUNT_REQUESTED);
+            Calculator.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(PAYMENT_AMOUNT_REQUESTED);
         }
     }
 }
