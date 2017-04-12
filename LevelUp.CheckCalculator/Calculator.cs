@@ -5,7 +5,7 @@ namespace LevelUp.CheckCalculator
     public static class Calculator
     {
         /// <summary>
-        /// Returns the amount of discount to apply, in cents, to your check.
+        /// Returns the amount of discount to apply to the check, in cents.
         /// </summary>
         /// <param name="checkTotalAmount">The full total amount of the check (including tax), in cents.</param>
         /// <param name="taxAmount">The amount of tax currently due on the check, in cents.</param>
