@@ -32,8 +32,7 @@ namespace LevelUp.CheckCalculator
                 exemptionAmount = Math.Max(0, exemptionAmount - exemptionAmountToIgnore);
             }
 
-            return Math.Min(discountAvailableAmount,
-                Math.Max(0, paymentRequested - exemptionAmount));
+            return Math.Min(discountAvailableAmount, Math.Max(0, paymentRequested - exemptionAmount));
         }
     }
 }
