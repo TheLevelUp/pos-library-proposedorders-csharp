@@ -5,7 +5,7 @@ namespace LevelUp.CheckCalculator
     public static class Calculator
     {
         /// <summary>
-        /// 
+        /// Returns the amount of discount to apply, in cents, to your check.
         /// </summary>
         /// <param name="checkTotalAmount">The full total amount of the check (including tax), in cents.</param>
         /// <param name="taxAmount">The amount of tax currently due on the check, in cents.</param>
@@ -13,11 +13,11 @@ namespace LevelUp.CheckCalculator
         /// <param name="discountAvailableAmount">The amount of discount available, in cents.</param>
         /// <param name="exemptionAmount">The total amount of exempted items on the check, in cents.</param>
         /// <returns></returns>
-        public static decimal CalculateDiscountToApply(int discountAvailableAmount,
-            int spendAmount,
-            int checkTotalAmount,
-            int taxAmount,
-            int exemptionAmount)
+        public static int CalculateDiscountToApply(int checkTotalAmount,
+                                                   int taxAmount,
+                                                   int spendAmount,
+                                                   int discountAvailableAmount,
+                                                   int exemptionAmount = 0)
         {
             int amountDueLessTax = checkTotalAmount - taxAmount;
 
