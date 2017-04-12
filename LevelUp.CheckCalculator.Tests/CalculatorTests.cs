@@ -13,10 +13,10 @@ namespace LevelUp.CheckCalculator.Tests
              * Compare 'Payment' to 'Due W/Tax' where 'Due W/Tax' is less than, equal, greater than, and 0
              * 
              * 4 States
-             * Compare 'MFC' to 'Payment' where 'MFC' is less than, equal, greater than, and 0
+             * Compare 'Discount' to 'Payment' where 'Discount' is less than, equal, greater than, and 0
              * 
              * 5 States
-             * Compare 'Exempt' to 'MFC' or 'Due W/Tax' where 'Exempt' is less than, equal, greater than, and 0
+             * Compare 'Exempt' to 'Discount' or 'Due W/Tax' where 'Exempt' is less than, equal, greater than, and 0
              * 
              * Results in 4 * 4 * 5 test cases.
              */
