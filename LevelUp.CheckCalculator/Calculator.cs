@@ -9,23 +9,23 @@ namespace LevelUp.CheckCalculator
         /// In the case of a partial-payment scenerio, the exemption amount should not exceed the payment amount 
         /// if a customer is not paying the check in full.
         /// </summary>
-        /// <param name="usersPaymentInDollars">The amount of the check that the user has elected to pay.  This 
+        /// <param name="spendAmount">The amount of the check that the user has elected to pay.  This 
         /// will typically be equal to the outstanding balance on check, however in split or partial payment scenarios,
         /// it may be less.</param>
-        /// <param name="exemptionAmountInDollars">The exemption amount specified in the request</param>
+        /// <param name="exemptionAmount">The exemption amount specified in the request</param>
         /// <returns>The adjusted exemption amount when partial payment is taken into account.</returns>
-        internal static decimal CalculateAdjustedExemptionAmount(decimal usersPaymentInDollars,
-            decimal? exemptionAmountInDollars)
+        internal static int CalculateAdjustedExemptionAmount(int spendAmount, int? exemptionAmount)
         {
-            if (!exemptionAmountInDollars.HasValue)
+            if (!exemptionAmount.HasValue)
             {
                 return 0;
             }
 
-            decimal adjustedExemptionAmount = exemptionAmountInDollars.Value;
-            if (exemptionAmountInDollars.Value > usersPaymentInDollars)
+            int adjustedExemptionAmount = exemptionAmount.Value;
+
+            if (exemptionAmount.Value > spendAmount)
             {
-                adjustedExemptionAmount = Math.Max(0, usersPaymentInDollars);
+                adjustedExemptionAmount = Math.Max(0, spendAmount);
             }
 
             return adjustedExemptionAmount;
@@ -34,25 +34,24 @@ namespace LevelUp.CheckCalculator
         /// <summary>
         /// Determines any adjustments to make to a OrderRequest spend amount to allow for partial payments.
         /// </summary>
-        /// <param name="totalOutstandingAmountOnCheckInDollars">The total outstanding amount that is remaining on 
+        /// <param name="totalOutstandingAmountOnCheck">The total outstanding amount that is remaining on 
         /// the check, including the tax.</param>
-        /// <param name="paymentRequested">Any custom spend-amount that might be specified in the UI as part of 
+        /// <param name="spendAmount">Any custom spend-amount that might be specified in the UI as part of 
         /// a partial-payment scenerio.  If no custom payment amount was specified, and the consumer expects to pay
         /// the balance of the check in full with this payment, then this would be null</param>
         /// <returns>The adjusted spend amount when partial payment is taken into account.</returns>
-        internal static decimal CalculateAdjustedSpendAmount(decimal totalOutstandingAmountOnCheckInDollars,
-            decimal? paymentRequested)
+        internal static int CalculateAdjustedSpendAmount(int totalOutstandingAmountOnCheck, int? spendAmount)
         {
-            if (!paymentRequested.HasValue || paymentRequested.Value < 0)
+            if (!spendAmount.HasValue || spendAmount.Value < 0)
             {
-                return totalOutstandingAmountOnCheckInDollars;
+                return totalOutstandingAmountOnCheck;
             }
 
-            decimal returnValue = totalOutstandingAmountOnCheckInDollars;
+            int returnValue = totalOutstandingAmountOnCheck;
 
-            if (paymentRequested.Value < totalOutstandingAmountOnCheckInDollars)
+            if (spendAmount.Value < totalOutstandingAmountOnCheck)
             {
-                returnValue = paymentRequested.Value;
+                returnValue = spendAmount.Value;
             }
 
             return returnValue;
@@ -69,25 +68,24 @@ namespace LevelUp.CheckCalculator
         /// creative ordering, we may have been able to enable them to do so.)  Moreover, if that user does not 
         /// have a linked payment account (two-touch loyalty, etc.) then their payment will be rejected entirely.
         /// </summary>
-        /// <param name="requestedSpendAmountInDollars">The amount of the check that the user has elected to pay.  This 
+        /// <param name="spendAmount">The amount of the check that the user has elected to pay.  This 
         /// will typically be equal to the outstanding balance on check, however in split or partial payment scenarios,
         /// it may be less.</param>
-        /// <param name="totalOutstandingAmountOnCheckInDollars">The total outstanding amount that is remaining on 
+        /// <param name="totalOutstandingAmountOnCheck">The total outstanding amount that is remaining on 
         /// the check, including the tax.</param>
-        /// <param name="totalTaxAmountOnCheckInDollars">The total amount of tax on the check</param>
-        internal static decimal CalculateAdjustedTax(decimal requestedSpendAmountInDollars,
-            decimal totalOutstandingAmountOnCheckInDollars,
-            decimal totalTaxAmountOnCheckInDollars)
+        /// <param name="totalTaxAmountOnCheck">The total amount of tax on the check</param>
+        internal static int CalculateAdjustedTax(int spendAmount, int totalOutstandingAmountOnCheck, int totalTaxAmountOnCheck)
         {
             // If they're paying the order in full (i.e. no split-payment/two-touch-loyalty), no adjustment is required
-            if (decimal.Equals(requestedSpendAmountInDollars, totalOutstandingAmountOnCheckInDollars))
+            if (decimal.Equals(spendAmount, totalOutstandingAmountOnCheck))
             {
-                return totalTaxAmountOnCheckInDollars;
+                return totalTaxAmountOnCheck;
             }
 
-            decimal outstandingAmount = decimal.Subtract(totalOutstandingAmountOnCheckInDollars, requestedSpendAmountInDollars);
+            int outstandingAmount = totalOutstandingAmountOnCheck - spendAmount;
 
-            decimal adjustedTaxAmountToPay = decimal.Subtract(totalTaxAmountOnCheckInDollars, outstandingAmount);
+            int adjustedTaxAmountToPay = totalTaxAmountOnCheck - outstandingAmount;
+
             adjustedTaxAmountToPay = Math.Max(adjustedTaxAmountToPay, 0);
 
             return adjustedTaxAmountToPay;
