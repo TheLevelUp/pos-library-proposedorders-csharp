@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FluentAssertions;
 
 namespace LevelUp.CheckCalculator.Tests
 {
