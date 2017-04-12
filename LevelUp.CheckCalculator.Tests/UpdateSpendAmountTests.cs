@@ -13,7 +13,7 @@ namespace LevelUp.CheckCalculator.Tests
         {
             const int PAYMENT_AMOUNT_REQUESTED = SPEND;
 
-            Calculator.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(SPEND);
+            CalculatorHelpers.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(SPEND);
         }
 
         [TestMethod]
@@ -21,7 +21,7 @@ namespace LevelUp.CheckCalculator.Tests
         {
             const int PAYMENT_AMOUNT_REQUESTED = SPEND + 200;
 
-            Calculator.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(SPEND);
+            CalculatorHelpers.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(SPEND);
         }
 
         [TestMethod]
@@ -29,7 +29,9 @@ namespace LevelUp.CheckCalculator.Tests
         {
             const int PAYMENT_AMOUNT_REQUESTED = SPEND - 200;
 
-            Calculator.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED).Should().Be(PAYMENT_AMOUNT_REQUESTED);
+            CalculatorHelpers.CalculateAdjustedSpendAmount(SPEND, PAYMENT_AMOUNT_REQUESTED)
+                .Should()
+                .Be(PAYMENT_AMOUNT_REQUESTED);
         }
     }
 }

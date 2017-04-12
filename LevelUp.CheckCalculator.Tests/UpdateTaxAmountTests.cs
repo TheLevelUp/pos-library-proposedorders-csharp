@@ -13,8 +13,9 @@ namespace LevelUp.CheckCalculator.Tests
             int amountUserIsPaying = 1000;
             int taxAmount = 100;
 
-            Calculator.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck, taxAmount)
-                .Should().Be(taxAmount);
+            CalculatorHelpers.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck, taxAmount)
+                .Should()
+                .Be(taxAmount);
         }
 
         [TestMethod]
@@ -24,8 +25,9 @@ namespace LevelUp.CheckCalculator.Tests
             int amountUserIsPaying = 500;
             int taxAmount = 100;
 
-            Calculator.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck,taxAmount)
-                .Should().Be(0);
+            CalculatorHelpers.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck, taxAmount)
+                .Should()
+                .Be(0);
         }
 
         [TestMethod]
@@ -35,8 +37,9 @@ namespace LevelUp.CheckCalculator.Tests
             int amountUserIsPaying = 950;
             int taxAmount = 100;
 
-            Calculator.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck, taxAmount)
-                .Should().Be(50);
+            CalculatorHelpers.CalculateAdjustedTax(amountUserIsPaying, outstandingTotalOnCheck, taxAmount)
+                .Should()
+                .Be(50);
         }
     }
 }

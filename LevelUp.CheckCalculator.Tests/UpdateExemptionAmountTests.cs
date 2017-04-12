@@ -13,7 +13,7 @@ namespace LevelUp.CheckCalculator.Tests
         {
             const int EXEMPT = SPEND;
 
-            Calculator.CalculateAdjustedExemptionAmount(SPEND, EXEMPT).Should().Be(SPEND);
+            CalculatorHelpers.CalculateAdjustedExemptionAmount(SPEND, EXEMPT).Should().Be(SPEND);
         }
 
         [TestMethod]
@@ -21,7 +21,7 @@ namespace LevelUp.CheckCalculator.Tests
         {
             const int EXEMPT = SPEND - 300;
 
-            Calculator.CalculateAdjustedExemptionAmount(SPEND, EXEMPT).Should().Be(EXEMPT);
+            CalculatorHelpers.CalculateAdjustedExemptionAmount(SPEND, EXEMPT).Should().Be(EXEMPT);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace LevelUp.CheckCalculator.Tests
         {
             const int EXEMPT = SPEND + 300;
 
-            Calculator.CalculateAdjustedExemptionAmount(SPEND, EXEMPT).Should().Be(SPEND);
+            CalculatorHelpers.CalculateAdjustedExemptionAmount(SPEND, EXEMPT).Should().Be(SPEND);
         }
     }
 }
