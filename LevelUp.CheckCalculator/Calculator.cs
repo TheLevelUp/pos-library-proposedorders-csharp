@@ -9,12 +9,16 @@ namespace LevelUp.CheckCalculator
             int spendAmount,
             int? exemptionAmount)
         {
-            return new AdjustedCheckValues()
-            {
-                ExemptionAmount = CalculatorHelpers.CalculateAdjustedExemptionAmount(spendAmount, exemptionAmount),
-                SpendAmount = CalculatorHelpers.CalculateAdjustedSpendAmount(totalOutstandingAmountOnCheck, spendAmount),
-                TaxAmount = CalculatorHelpers.CalculateAdjustedTax(spendAmount, totalOutstandingAmountOnCheck, totalTaxAmountOnCheck)
-            };
+            int adjustedSpendAmount =
+                CalculatorHelpers.CalculateAdjustedSpendAmount(totalOutstandingAmountOnCheck, spendAmount);
+
+            int adjustedTaxAmount = CalculatorHelpers.CalculateAdjustedTax(adjustedSpendAmount,
+                totalOutstandingAmountOnCheck, totalTaxAmountOnCheck);
+
+            int adjustedExemptionAmount =
+                CalculatorHelpers.CalculateAdjustedExemptionAmount(adjustedSpendAmount, exemptionAmount);
+
+            return new AdjustedCheckValues(adjustedSpendAmount, adjustedTaxAmount, adjustedExemptionAmount);
         }
     }
 }
