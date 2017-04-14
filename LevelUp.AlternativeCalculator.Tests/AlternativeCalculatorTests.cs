@@ -10,9 +10,7 @@ namespace LevelUp.AlternativeCalculator.Tests
         [TestMethod]
         public void Test1()
         {
-            Calculator.AdjustedCheckValues x = new Calculator.AdjustedCheckValues();
-
-            Assert.AreEqual(AlternativeCalculator.Calculator.CalculateAdjustedCheckValues(1,1,1,1), new Calculator.AdjustedCheckValues(1, 2, 3));
+           
         }
     }
 }
