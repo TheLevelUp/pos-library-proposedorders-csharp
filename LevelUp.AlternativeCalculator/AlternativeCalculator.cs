@@ -4,13 +4,6 @@ namespace LevelUp.AlternativeCalculator
 {
     public static class Calculator
     {
-        public class AdjustedCheckValues
-        {
-            public int SpendAmount { get; set; }
-            public int TaxAmount { get; set; }
-            public int ExemptionAmount { get; set; }
-        }
-
         public static AdjustedCheckValues CalculateAdjustedCheckValues(
             int totalOutstandingAmount,
             int totalTaxAmount,
@@ -33,12 +26,7 @@ namespace LevelUp.AlternativeCalculator
             }
 
             // finished
-            return new AdjustedCheckValues()
-            {
-                SpendAmount = adjustedSpendAmount,
-                TaxAmount = adjustedTaxAmount,
-                ExemptionAmount = adjustedExemptionAmount
-            };
+            return new AdjustedCheckValues(adjustedSpendAmount, adjustedTaxAmount, adjustedExemptionAmount);
         }
     }
 }
