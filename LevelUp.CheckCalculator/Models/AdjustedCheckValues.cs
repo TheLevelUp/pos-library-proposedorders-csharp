@@ -12,5 +12,19 @@
             TaxAmount = taxAmount;
             ExemptionAmount = exemptionAmount;
         }
+
+        public override bool Equals(object obj)
+        {
+            var adjustedCheckValues = (AdjustedCheckValues)obj;
+
+            if (adjustedCheckValues != null)
+            {
+                return adjustedCheckValues.SpendAmount == this.SpendAmount &&
+                       adjustedCheckValues.TaxAmount == this.TaxAmount &&
+                       adjustedCheckValues.ExemptionAmount == this.ExemptionAmount;
+            }
+
+            return base.Equals(obj);
+        }
     }
 }

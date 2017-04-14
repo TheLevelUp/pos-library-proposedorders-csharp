@@ -4,10 +4,11 @@ namespace LevelUp.CheckCalculator
 {
     public static class Calculator
     {
-        public static AdjustedCheckValues CalculateAdjustedCheckValues(int totalOutstandingAmountOnCheck,
+        public static AdjustedCheckValues CalculateAdjustedCheckValues(
+            int totalOutstandingAmountOnCheck,
             int totalTaxAmountOnCheck,
-            int spendAmount,
-            int? exemptionAmount)
+            int? exemptionAmount,
+            int spendAmount)
         {
             int adjustedSpendAmount =
                 CalculatorHelpers.CalculateAdjustedSpendAmount(totalOutstandingAmountOnCheck, spendAmount);
