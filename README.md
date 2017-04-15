@@ -22,7 +22,7 @@ This single method takes known data from your check, such as:
 - The `exemption_amount`
 
 ## Usage
-Using this library is simple. There is one static method and it returns one object.
+Using this library is simple. There is one method and it always returns one object with three properties.
 ```
 class Program
 {
@@ -64,12 +64,12 @@ var adjustedCheckValues = LevelUp.Pos.ProposedOrderCalculator.Calculator.Calcula
     spendAmount
 );
 
-// -> LevelUp Create Proposed Order API Call
+// -> API Call: LevelUp Create Proposed Order
 // <- If successful, apply the customers discount credit 
 
 // Retrieve the inputs to this library again (the tax, for instance, has likely changed)
 
-// -> LevelUp Complete Proposed Order API Call
+// -> API Call: LevelUp Complete Proposed Order
 // <- If successful, the process of placing a LevelUp order is finished
 ```
 
