@@ -54,7 +54,7 @@ Below is how you might expect an order flow to work with this library to create 
 
 ```
 // ...
-// Retreive the inputs to this library from the check (described above)
+// Retreive the inputs to this library from the check (described in the introduction)
 // ...
 
 var adjustedCheckValues = LevelUp.Pos.ProposedOrderCalculator.Calculator.CalculateAdjustedCheckValues(
