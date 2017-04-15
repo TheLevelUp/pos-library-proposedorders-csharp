@@ -22,7 +22,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator
     public class Calculator
     {
         /// <summary>
-        /// Accepts known values from the point of sale and gives you an AdjustedCheckValues object containing the 
+        /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValues object containing the 
         /// spend_amount, tax_amount, and exemption_amount to submit a LevelUp API request to either Create or Complete 
         /// a Proposed Order.
         /// </summary>
