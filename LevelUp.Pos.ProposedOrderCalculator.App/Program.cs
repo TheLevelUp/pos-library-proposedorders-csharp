@@ -6,14 +6,14 @@ namespace LevelUp.Pos.ProposedOrderCalculator.App
     {
         static void Main(string[] args)
         {
-            // $12.00 is owed, $1.00 of that is tax. $3.00 of that is tobacco/alcohol, and they want to pay $10.00
-            // towards the check
+            // $12.00 is owed, $1.00 of that is tax. $3.00 of that is tobacco/alcohol, and the customer wants to pay 
+            // $10.00 towards the check
             int totalOutstandingAmount = 1200;
             int totalTaxAmount = 100;
             int totalExemptionAmount = 300;
             int spendAmount = 1000;
 
-            var adjustedCheckValues = Calculator.CalculateAdjustedCheckValues(
+            var adjustedCheckValues = LevelUp.Pos.ProposedOrderCalculator.Calculator.CalculateAdjustedCheckValues(
                 totalOutstandingAmount,
                 totalTaxAmount,
                 totalExemptionAmount,

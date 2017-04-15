@@ -14,9 +14,6 @@ namespace LevelUp.Pos.ProposedOrderCalculator
             TaxAmount = taxAmount;
             ExemptionAmount = exemptionAmount;
         }
-
-        public override string ToString() =>
-            $"SpendAmount={SpendAmount};TaxAmount={TaxAmount};ExemptionAmount={ExemptionAmount}";
     }
 
     public class Calculator
