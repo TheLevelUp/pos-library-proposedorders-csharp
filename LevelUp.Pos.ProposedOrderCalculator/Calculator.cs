@@ -34,18 +34,18 @@ namespace LevelUp.Pos.ProposedOrderCalculator
                 CalculateAdjustedTaxAmount(totalOutstandingAmount, totalTaxAmount, adjustedSpendAmount);
 
             int adjustedExemptionAmount =
-                CalculatedAdjustedExemptionAmount(totalOutstandingAmount, totalTaxAmount, totalExemptionAmount,
+                CalculateAdjustedExemptionAmount(totalOutstandingAmount, totalTaxAmount, totalExemptionAmount,
                     adjustedSpendAmount);
 
             return new AdjustedCheckValues(adjustedSpendAmount, adjustedTaxAmount, adjustedExemptionAmount);
         }
 
-        private static int CalculateAdjustedSpendAmount(int totalOutstandingAmount, int spendAmount)
+        internal static int CalculateAdjustedSpendAmount(int totalOutstandingAmount, int spendAmount)
         {
             return Math.Max(0, Math.Min(spendAmount, totalOutstandingAmount));
         }
 
-        private static int CalculateAdjustedTaxAmount(
+        internal static int CalculateAdjustedTaxAmount(
             int totalOutstandingAmount,
             int totalTaxAmount,
             int adjustedSpendAmount)
@@ -64,7 +64,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator
             return adjustedTaxAmount;
         }
 
-        private static int CalculatedAdjustedExemptionAmount(
+        internal static int CalculateAdjustedExemptionAmount(
             int totalOutstandingAmount,
             int totalTaxAmount,
             int totalExemptionAmount,

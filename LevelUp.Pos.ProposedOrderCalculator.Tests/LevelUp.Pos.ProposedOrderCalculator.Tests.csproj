@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="CalculatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpdateExemptionAmountTests.cs" />
+    <Compile Include="UpdateSpendAmountTests.cs" />
+    <Compile Include="UpdateTaxAmountTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LevelUp.Pos.ProposedOrderCalculator.Tests.Data\LevelUp.Pos.ProposedOrderCalculator.Tests.Data.csproj">
