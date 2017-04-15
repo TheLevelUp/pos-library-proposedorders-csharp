@@ -21,6 +21,16 @@ namespace LevelUp.Pos.ProposedOrderCalculator
 
     public class Calculator
     {
+        /// <summary>
+        /// Accepts known values from the point of sale and gives you an AdjustedCheckValues object containing the 
+        /// spend_amount, tax_amount, and exemption_amount to submit a LevelUp API request to either Create or Complete 
+        /// a Proposed Order.
+        /// </summary>
+        /// <param name="totalOutstandingAmount">The current total amount of the check, including tax, in cents.</param>
+        /// <param name="totalTaxAmount">The current tax due on the check, in cents.</param>
+        /// <param name="totalExemptionAmount">The current total of exempted items on the check, in cents.</param>
+        /// <param name="spendAmount">The amount the user would like to spend, in cents.</param>
+        /// <returns>LevelUp.Pos.ProposedOrderCalculator.AdjustedCheckValues</returns>
         public static AdjustedCheckValues CalculateAdjustedCheckValues(
             int totalOutstandingAmount,
             int totalTaxAmount,
