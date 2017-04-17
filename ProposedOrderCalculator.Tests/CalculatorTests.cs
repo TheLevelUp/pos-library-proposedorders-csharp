@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FluentAssertions;
-using LevelUp.Pos.ProposedOrderCalculator.Tests.Data;
 
 namespace LevelUp.Pos.ProposedOrderCalculator.Tests
 {
@@ -13,7 +12,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator.Tests
             [TestMethod]
             public void RunTestBattery()
             {
-                RunTestArray(TestData.TestBattery);
+                RunTestArray(Data.CalculatorTestData.TestBattery);
             }
 
             private void RunTestArray(int[,] values)

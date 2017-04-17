@@ -1,6 +1,6 @@
 ﻿namespace LevelUp.Pos.ProposedOrderCalculator.Tests.Data
 {
-    public class TestData
+    public static class CalculatorTestData
     {
         public static int[,] TestBattery =
         {
