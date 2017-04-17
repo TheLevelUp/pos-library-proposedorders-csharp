@@ -53,17 +53,20 @@
     <Compile Include="UpdateTaxAmountTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LevelUp.Pos.ProposedOrderCalculator.Tests.Data\LevelUp.Pos.ProposedOrderCalculator.Tests.Data.csproj">
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProposedOrderCalculator.Tests.Data\ProposedOrderCalculator.Tests.Data.csproj">
       <Project>{88e8f04f-0e35-49fe-b4d0-268179a5a212}</Project>
-      <Name>LevelUp.Pos.ProposedOrderCalculator.Tests.Data</Name>
+      <Name>ProposedOrderCalculator.Tests.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LevelUp.Pos.ProposedOrderCalculator\LevelUp.Pos.ProposedOrderCalculator.csproj">
+    <ProjectReference Include="..\ProposedOrderCalculator\ProposedOrderCalculator.csproj">
       <Project>{f37d7723-d6cd-4880-8d1c-a38be2924fa8}</Project>
-      <Name>LevelUp.Pos.ProposedOrderCalculator</Name>
+      <Name>ProposedOrderCalculator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

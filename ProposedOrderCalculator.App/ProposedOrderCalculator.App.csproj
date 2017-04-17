@@ -44,7 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LevelUp.Pos.ProposedOrderCalculator\LevelUp.Pos.ProposedOrderCalculator.csproj">
+    <ProjectReference Include="..\ProposedOrderCalculator\ProposedOrderCalculator.csproj">
       <Project>{f37d7723-d6cd-4880-8d1c-a38be2924fa8}</Project>
       <Name>LevelUp.Pos.ProposedOrderCalculator</Name>
     </ProjectReference>
