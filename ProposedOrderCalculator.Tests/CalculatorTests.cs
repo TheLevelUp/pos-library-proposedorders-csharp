@@ -18,7 +18,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator.Tests
             for (int i = 0; i < values.GetLength(0); i++)
             {
                 int totalOutstandingAmount = values[i, 0];
-                int totalOutstandintotalTaxAmountgAmount = values[i, 1];
+                int totalOutstandingTaxAmount = values[i, 1];
                 int totalExemptionAmount = values[i, 2];
                 int spendAmount = values[i, 3];
 
@@ -31,7 +31,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator.Tests
 
                 AdjustedCheckValues actualCheckValues = Calculator.CalculateAdjustedCheckValues(
                     totalOutstandingAmount,
-                    totalOutstandintotalTaxAmountgAmount,
+                    totalOutstandingTaxAmount,
                     totalExemptionAmount,
                     spendAmount);
 
