@@ -37,12 +37,11 @@ namespace LevelUp.Pos.ProposedOrderCalculator
         {
             int adjustedSpendAmount = CalculateAdjustedSpendAmount(spendAmount, totalOutstandingAmount);
 
-            int adjustedTaxAmount =
-                CalculateAdjustedTaxAmount(totalOutstandingAmount, totalTaxAmount, adjustedSpendAmount);
+            int adjustedTaxAmount = CalculateAdjustedTaxAmount(totalOutstandingAmount, totalTaxAmount, 
+                adjustedSpendAmount);
 
-            int adjustedExemptionAmount =
-                CalculateAdjustedExemptionAmount(totalOutstandingAmount, totalTaxAmount, totalExemptionAmount,
-                    adjustedSpendAmount);
+            int adjustedExemptionAmount = CalculateAdjustedExemptionAmount(totalOutstandingAmount, totalTaxAmount,
+                totalExemptionAmount, adjustedSpendAmount);
 
             return new AdjustedCheckValues(adjustedSpendAmount, adjustedTaxAmount, adjustedExemptionAmount);
         }
