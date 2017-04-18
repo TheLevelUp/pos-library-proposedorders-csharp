@@ -7,8 +7,8 @@
     <ProjectGuid>{1408C559-5C3F-45F1-B9C3-D046F91A2EA5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProposedOrderCalculator.NuGet</RootNamespace>
-    <AssemblyName>ProposedOrderCalculator.NuGet</AssemblyName>
+    <RootNamespace>LevelUp.Pos.ProposedOrderCalculator.NuGet</RootNamespace>
+    <AssemblyName>LevelUp.Pos.ProposedOrderCalculator.NuGet</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -70,8 +70,8 @@
     <PropertyGroup>
       <NuspecTargetDirectory>$(SolutionDir)nuget\</NuspecTargetDirectory>
     </PropertyGroup>
-    <Message Text="$(ReleasesDir)"/>
-  </Target>  
+    <Message Text="$(ReleasesDir)" />
+  </Target>
   <Target Name="NuGetPack" DependsOnTargets="NuGetTarget" AfterTargets="AfterBuild">
     <PropertyGroup>
       <NuspecSourceDirectory>$(ProjectDir)nuspec\</NuspecSourceDirectory>
