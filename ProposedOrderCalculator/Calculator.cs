@@ -8,7 +8,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator
         public int TaxAmount { get; }
         public int ExemptionAmount { get; }
 
-        public AdjustedCheckValues(int spendAmount, int taxAmount, int exemptionAmount)
+        internal AdjustedCheckValues(int spendAmount, int taxAmount, int exemptionAmount)
         {
             SpendAmount = spendAmount;
             TaxAmount = taxAmount;
