@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F37D7723-D6CD-4880-8D1C-A38BE2924FA8}</ProjectGuid>
+    <ProjectGuid>{1408C559-5C3F-45F1-B9C3-D046F91A2EA5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LevelUp.Pos.ProposedOrderCalculator</RootNamespace>
-    <AssemblyName>LevelUp.Pos.ProposedOrderCalculator</AssemblyName>
+    <RootNamespace>ProposedOrderCalculator.NuGet</RootNamespace>
+    <AssemblyName>ProposedOrderCalculator.NuGet</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -41,11 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="ProposedOrderCalculator.nuspec">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProposedOrderCalculator\ProposedOrderCalculator.csproj">
+      <Project>{f37d7723-d6cd-4880-8d1c-a38be2924fa8}</Project>
+      <Name>ProposedOrderCalculator</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
@@ -55,6 +64,18 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets'))" />
   </Target>
-  <Target Name="Pack"  AfterTargets="AfterBuild">  
-  </Target>  
+  <Target Name="NuGetPack" AfterTargets="AfterBuild">
+    <PropertyGroup>
+      <NuspecSourceDirectory>$(ProjectDir)nuspec\</NuspecSourceDirectory>
+      <NuspecVersion>$(GitVersion_NuGetVersion)</NuspecVersion>
+      <NuspecFileSourcesDirectory>$(TargetDir)</NuspecFileSourcesDirectory>
+    </PropertyGroup>
+    <Exec Command="nuget pack $(TargetDir)ProposedOrderCalculator.nuspec -NoPackageAnalysis -OutputDirectory $(TargetDir) -properties version=$(NuspecVersion);sourcedir=$(TargetDir)" />
+  </Target>
+  <Target Name="CleanNuGetPack" AfterTargets="AfterClean">
+    <ItemGroup>
+      <FilesToDelete Include="$(ProjectDir)**\*.nupkg" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+  </Target>
 </Project>
