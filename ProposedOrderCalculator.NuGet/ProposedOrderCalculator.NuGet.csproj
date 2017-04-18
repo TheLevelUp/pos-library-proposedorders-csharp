@@ -64,19 +64,27 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets'))" />
   </Target>
-  <Target Name="NuGetPack" AfterTargets="AfterBuild">
+  <!-- This is a dummy target used to share properties between 'NuGetPack' and 'CleanNuGetPack' -->
+  <!-- NuGet pack XML -->
+  <Target Name="NuGetTarget">
+    <PropertyGroup>
+      <NuspecTargetDirectory>$(SolutionDir)nuget\</NuspecTargetDirectory>
+    </PropertyGroup>
+    <Message Text="$(ReleasesDir)"/>
+  </Target>  
+  <Target Name="NuGetPack" DependsOnTargets="NuGetTarget" AfterTargets="AfterBuild">
     <PropertyGroup>
       <NuspecSourceDirectory>$(ProjectDir)nuspec\</NuspecSourceDirectory>
       <NuspecVersion>$(GitVersion_NuGetVersion)</NuspecVersion>
       <NuspecFileSourcesDirectory>$(TargetDir)</NuspecFileSourcesDirectory>
-      <NuspecTargetDirectory>$(SolutionDir)nuget\</NuspecTargetDirectory>
     </PropertyGroup>
     <Exec Command="nuget pack $(TargetDir)ProposedOrderCalculator.nuspec -NoPackageAnalysis -OutputDirectory $(NuspecTargetDirectory) -properties version=$(NuspecVersion);sourcedir=$(TargetDir)" />
   </Target>
-  <Target Name="CleanNuGetPack" AfterTargets="AfterClean">
+  <Target Name="CleanNuGetPack" DependsOnTargets="NuGetTarget" AfterTargets="AfterClean">
     <ItemGroup>
       <FilesToDelete Include="$(NuspecTargetDirectory)**\*.nupkg" />
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
   </Target>
+  <!-- End of NuGet pack XML -->
 </Project>
