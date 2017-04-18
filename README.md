@@ -2,7 +2,7 @@
 
 - [Introduction](#introduction)
 - [Usage](#usage)
-- [Overview](#overview)
+- [Overview](#order-flow)
 - [Links](#links)
 
 ## Introduction
@@ -49,7 +49,7 @@ class Program
 }
 ```
 
-## Overview
+## Order Flow
 Below is how you might expect an order flow to work with this library to create an order for a customer on LevelUp using proposed orders:
 
 ```
