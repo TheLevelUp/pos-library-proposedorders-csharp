@@ -64,7 +64,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator
             {
                 int remainingAmountOwedAfterSpend = totalOutstandingAmount - adjustedSpendAmount;
 
-                return Math.Max(0, totalTaxAmount - remainingAmountOwedAfterSpend);
+                adjustedTaxAmount = Math.Max(0, totalTaxAmount - remainingAmountOwedAfterSpend);
             }
 
             return adjustedTaxAmount;
