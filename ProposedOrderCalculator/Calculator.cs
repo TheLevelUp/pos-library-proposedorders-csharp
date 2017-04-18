@@ -88,7 +88,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator
 
             if (wasPartialPaymentRequested)
             {
-                // defer the exemption amount to the end
+                // defer the exemption amount to last possible paying customer or customers
                 int totalOutstandingLessTaxAfterPayment = totalOutstandingAmountLessTax - adjustedSpendAmount;
 
                 adjustedExemptionAmount = Math.Max(0, adjustedExemptionAmount - totalOutstandingLessTaxAfterPayment);
