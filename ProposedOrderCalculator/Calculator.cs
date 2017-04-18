@@ -16,7 +16,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator
         }
     }
 
-    public class Calculator
+    public static class Calculator
     {
         /// <summary>
         /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValues object containing the 
