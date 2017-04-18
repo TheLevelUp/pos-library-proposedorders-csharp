@@ -69,12 +69,13 @@
       <NuspecSourceDirectory>$(ProjectDir)nuspec\</NuspecSourceDirectory>
       <NuspecVersion>$(GitVersion_NuGetVersion)</NuspecVersion>
       <NuspecFileSourcesDirectory>$(TargetDir)</NuspecFileSourcesDirectory>
+      <NuspecTargetDirectory>$(SolutionDir)nuget\</NuspecTargetDirectory>
     </PropertyGroup>
-    <Exec Command="nuget pack $(TargetDir)ProposedOrderCalculator.nuspec -NoPackageAnalysis -OutputDirectory $(TargetDir) -properties version=$(NuspecVersion);sourcedir=$(TargetDir)" />
+    <Exec Command="nuget pack $(TargetDir)ProposedOrderCalculator.nuspec -NoPackageAnalysis -OutputDirectory $(NuspecTargetDirectory) -properties version=$(NuspecVersion);sourcedir=$(TargetDir)" />
   </Target>
   <Target Name="CleanNuGetPack" AfterTargets="AfterClean">
     <ItemGroup>
-      <FilesToDelete Include="$(ProjectDir)**\*.nupkg" />
+      <FilesToDelete Include="$(NuspecTargetDirectory)**\*.nupkg" />
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
   </Target>
