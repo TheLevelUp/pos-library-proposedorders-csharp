@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Nuspec replacement tokens: http://docs.nuget.org/ndocs/schema/nuspec#replacement-tokens-->
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>LevelUp.Pos.ProposedOrderCalculator</id>
+    <version>$version$</version>
+    <authors>SCVNGR Inc .: LevelUp</authors>
+    <owners>SCVNGR Inc .: LevelUp</owners>
+    <licenseUrl>https://www.thelevelup.com/developers</licenseUrl>
+    <projectUrl>https://www.thelevelup.com/developers</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Assists developers implementing the LevelUp proposed orders API.</description>
+    <copyright>Copyright 2017</copyright>
+    <dependencies>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="$sourcedir$LevelUp.Pos.ProposedOrderCalculator.dll" target="lib\net40\LevelUp.Pos.ProposedOrderCalculator.dll" />
+  </files>
+</package>
