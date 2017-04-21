@@ -56,18 +56,18 @@ namespace LevelUp.Pos.ProposedOrderCalculator
             int totalTaxAmount,
             int adjustedSpendAmount)
         {
-            int adjustedTaxAmount = totalTaxAmount;
-
             bool wasPartialPaymentRequested = adjustedSpendAmount < totalOutstandingAmount;
 
             if (wasPartialPaymentRequested)
             {
                 int remainingAmountOwedAfterSpend = totalOutstandingAmount - adjustedSpendAmount;
 
-                adjustedTaxAmount = Math.Max(0, totalTaxAmount - remainingAmountOwedAfterSpend);
+                int adjustedTaxAmount = Math.Max(0, totalTaxAmount - remainingAmountOwedAfterSpend);
+
+                return adjustedTaxAmount;
             }
 
-            return adjustedTaxAmount;
+            return totalTaxAmount;
         }
 
         internal static int CalculateAdjustedExemptionAmount(
