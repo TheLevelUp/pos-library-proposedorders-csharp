@@ -10,7 +10,7 @@ For point-of-sale and point-of-sale-integration developers working with LevelUp,
 
 This single method takes known data from your check, such as:
 
-- The current total amount (including tax) due on the check.
+- The current total outstanding amount (including tax) due on the check.
 - The current total tax amount due on the check.
 - The current total of items exempt from earning loyalty (e.g. tobacco, alcohol).
 - The current amount your customer wants to pay.
