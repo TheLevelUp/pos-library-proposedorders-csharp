@@ -4,7 +4,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator
 {
     public class AdjustedCheckValues
     {
-        public int SpendAmount { get; }
+        public int SpendAmount { get; internal set; }
         public int TaxAmount { get; }
         public int ExemptionAmount { get; }
 

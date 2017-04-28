@@ -29,7 +29,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator.Tests
                 AdjustedCheckValues expectedCheckValues =
                     new AdjustedCheckValues(expectedSpendAmount, expectedTaxAmount, expectedExemptionAmount);
 
-                AdjustedCheckValues actualCheckValues = Calculator.CalculateAdjustedCheckValues(
+                AdjustedCheckValues actualCheckValues = Calculator.CalculateCreateProposedOrderValues(
                     totalOutstandingAmount,
                     totalTaxAmount,
                     totalExemptionAmount,
