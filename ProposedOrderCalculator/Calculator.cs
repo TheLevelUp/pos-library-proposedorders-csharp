@@ -20,34 +20,62 @@ namespace LevelUp.Pos.ProposedOrderCalculator
     {
         /// <summary>
         /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValues object containing the 
-        /// spend_amount, tax_amount, and exemption_amount to submit a LevelUp API request to either Create or Complete 
-        /// a Proposed Order.
+        /// spend_amount, tax_amount, and exemption_amount to submit a LevelUp Create Proposed Order API request.
         /// </summary>
         /// <param name="totalOutstandingAmount">The current total amount of the check, including tax, in cents.</param>
         /// <param name="totalTaxAmount">The current tax due on the check, in cents.</param>
         /// <param name="totalExemptionAmount">The current total of exempted items on the check, in cents.</param>
-        /// <param name="customerPaymentAmount">The amount the user would like to spend, in cents.</param>
-        /// <param name="appliedDiscountAmount">The discount amount applied to the point of sale for the customer.</param>
-        /// <returns>LevelUp.Pos.ProposedOrderCalculator.AdjustedCheckValues</returns>
-        public static AdjustedCheckValues CalculateAdjustedCheckValues(
+        /// <param name="customerPaymentAmount">The amount the customer would like to spend, in cents.</param>
+        /// <returns>LevelUp.Pos.ProposedOrderCalculator.CalculateCreateProposedOrderValues</returns>
+        public static AdjustedCheckValues CalculateCreateProposedOrderValues(
             int totalOutstandingAmount,
             int totalTaxAmount,
             int totalExemptionAmount,
-            int customerPaymentAmount,
-            int appliedDiscountAmount = 0
+            int customerPaymentAmount
         )
         {
-            totalOutstandingAmount += Math.Abs(appliedDiscountAmount);
-
             int adjustedSpendAmount = CalculateAdjustedSpendAmount(customerPaymentAmount, totalOutstandingAmount);
 
-            int adjustedTaxAmount = CalculateAdjustedTaxAmount(totalOutstandingAmount, totalTaxAmount, 
+            int adjustedTaxAmount = CalculateAdjustedTaxAmount(totalOutstandingAmount, totalTaxAmount,
                 adjustedSpendAmount);
 
             int adjustedExemptionAmount = CalculateAdjustedExemptionAmount(totalOutstandingAmount, totalTaxAmount,
                 totalExemptionAmount, adjustedSpendAmount);
 
             return new AdjustedCheckValues(adjustedSpendAmount, adjustedTaxAmount, adjustedExemptionAmount);
+        }
+
+        /// <summary>
+        /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValues object containing the 
+        /// spend_amount, tax_amount, and exemption_amount to submit a LevelUp Complete Order API request.
+        /// </summary>
+        /// <param name="totalOutstandingAmount">The current total amount of the check, including tax, in cents.</param>
+        /// <param name="totalTaxAmount">The current tax due on the check, in cents.</param>
+        /// <param name="totalExemptionAmount">The current total of exempted items on the check, in cents.</param>
+        /// <param name="customerPaymentAmount">The amount the customer would like to spend, in cents.</param>
+        /// <param name="appliedDiscountAmount">The discount amount applied to the point of sale for the customer.</param>
+        /// <returns>LevelUp.Pos.ProposedOrderCalculator.CalculateCompleteOrderValues</returns>
+        public static AdjustedCheckValues CalculateCompleteOrderValues(
+            int totalOutstandingAmount,
+            int totalTaxAmount,
+            int totalExemptionAmount,
+            int customerPaymentAmount,
+            int appliedDiscountAmount
+        )
+        {
+            AdjustedCheckValues values = CalculateCreateProposedOrderValues(
+                totalOutstandingAmount,
+                totalTaxAmount,
+                totalExemptionAmount,
+                customerPaymentAmount);
+
+            // For LevelUp Complete Proposed order, the spendAmount is expected to include the discount amount applied.
+            // This method re-calculates the taxAmount and exemptionAmount based off known check values, but then
+            // artifically adjusts the spendAmount to suit the context of the LevelUp Complete Proposed order.
+            values.SpendAmount = CalculateAdjustedSpendAmount(customerPaymentAmount,
+                totalOutstandingAmount + Math.Abs(appliedDiscountAmount));
+
+            return values;
         }
 
         internal static int CalculateAdjustedSpendAmount(int totalOutstandingAmount, int spendAmount)
