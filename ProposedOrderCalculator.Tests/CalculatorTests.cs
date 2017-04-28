@@ -47,7 +47,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator.Tests
             // The amount the user would like to spend
             int spendAmount = 1000;
 
-            AdjustedCheckValues proposedOrderValues = Calculator.CalculateAdjustedCheckValues(
+            AdjustedCheckValues proposedOrderValues = Calculator.CalculateCreateProposedOrderValues(
                 totalOutstandingAmount,
                 totalTaxAmount,
                 totalExemptionAmount,
@@ -55,7 +55,6 @@ namespace LevelUp.Pos.ProposedOrderCalculator.Tests
 
             proposedOrderValues.ShouldBeEquivalentTo(expectedProposedOderValues,
                 $"Exected: {expectedProposedOderValues};\nActual: {proposedOrderValues}");
-
 
             // available discount amount $1
             int availableDiscountAmount = 100;
@@ -73,11 +72,12 @@ namespace LevelUp.Pos.ProposedOrderCalculator.Tests
             AdjustedCheckValues expectedCompletedOrderValues =
                 new AdjustedCheckValues(expectedSpendAmount, expectedTaxAmount, expectedExemptionAmount);
 
-            AdjustedCheckValues completedOrderValues = Calculator.CalculateAdjustedCheckValues(
+            AdjustedCheckValues completedOrderValues = Calculator.CalculateCompleteOrderValues(
                 totalOutstandingAmount,
                 totalTaxAmount,
                 totalExemptionAmount,
-                spendAmount);
+                spendAmount,
+                availableDiscountAmount);
 
             completedOrderValues.ShouldBeEquivalentTo(expectedCompletedOrderValues,
                $"Exected: {expectedCompletedOrderValues};\nActual: {completedOrderValues}");
@@ -121,7 +121,7 @@ namespace LevelUp.Pos.ProposedOrderCalculator.Tests
             // The amount the user would like to spend (remaining balance)
             int spendAmount = totalOutstandingAmount;
 
-            AdjustedCheckValues proposedOrderValues = Calculator.CalculateAdjustedCheckValues(
+            AdjustedCheckValues proposedOrderValues = Calculator.CalculateCreateProposedOrderValues(
                 totalOutstandingAmount,
                 totalTaxAmount,
                 totalExemptionAmount,
@@ -145,16 +145,17 @@ namespace LevelUp.Pos.ProposedOrderCalculator.Tests
             // expemption amount unchanged
 
             expectedTaxAmount = 190;
-            expectedSpendAmount = 1190; /// CONFUSION: 1190 or 1090???
+            expectedSpendAmount = 1190;
 
             AdjustedCheckValues expectedCompletedOrderValues =
                 new AdjustedCheckValues(expectedSpendAmount, expectedTaxAmount, expectedExemptionAmount);
 
-            AdjustedCheckValues completedOrderValues = Calculator.CalculateAdjustedCheckValues(
+            AdjustedCheckValues completedOrderValues = Calculator.CalculateCompleteOrderValues(
                totalOutstandingAmount,
                totalTaxAmount,
                totalExemptionAmount,
-               spendAmount);
+               spendAmount,
+               availableDiscountAmount);
 
             completedOrderValues.ShouldBeEquivalentTo(expectedCompletedOrderValues,
                $"Exected: {expectedCompletedOrderValues};\nActual: {completedOrderValues}");
