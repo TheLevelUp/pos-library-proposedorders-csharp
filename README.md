@@ -33,13 +33,13 @@ class Program
         int totalOutstandingAmount = 1200;
         int totalTaxAmount = 100;
         int totalExemptionAmount = 300;
-        int spendAmount = 1000;
+        int customerPaymentAmount = 1000;
 
         var adjustedCheckValues = LevelUp.Pos.ProposedOrderCalculator.Calculator.CalculateAdjustedCheckValues(
             totalOutstandingAmount,
             totalTaxAmount,
             totalExemptionAmount,
-            spendAmount
+            customerPaymentAmount
         );
 
         Console.WriteLine($"The spend_amount is {adjustedCheckValues.SpendAmount}.");           // 1000
