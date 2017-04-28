@@ -15,7 +15,7 @@ This single method takes known data from your check, such as:
 - The current total of items exempt from earning loyalty (e.g. tobacco, alcohol).
 - The current amount your customer wants to pay.
 
-...and gives you the values needed to either "[create a LevelUp order](http://developer.thelevelup.com/api-reference/v15/orders-create-proposed/)" or "[complete a LevelUp order](http://developer.thelevelup.com/api-reference/v15/orders-create-completed/)".
+...and gives you the values needed to either "[create a Proposed Order](http://developer.thelevelup.com/api-reference/v15/orders-create-proposed/)" or "[complete an Order](http://developer.thelevelup.com/api-reference/v15/orders-create-completed/)".
 
 - The `spend_amount`
 - The `tax_amount`
@@ -28,7 +28,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        // $12.00 is owed, $1.00 of that is tax. $3.00 of that is tobacco/alcohol, and the customer wants to pay 
+        // $12.00 is owed, $1.00 of that is tax. $3.00 of that is tobacco/alcohol, and the customer wants to pay
         // $10.00 towards the check
         int totalOutstandingAmount = 1200;
         int totalTaxAmount = 100;
@@ -65,7 +65,7 @@ var adjustedCheckValues = LevelUp.Pos.ProposedOrderCalculator.Calculator.Calcula
 );
 
 // -> API Call: LevelUp Create Proposed Order
-// <- If successful, apply the customers discount credit 
+// <- If successful, apply the customers discount credit
 
 // Retrieve the inputs to this library again (the tax, for instance, has likely changed)
 
