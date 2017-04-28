@@ -49,6 +49,7 @@
     <Compile Include="CalculatorTests.cs" />
     <Compile Include="Data\CalculatorTestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplitTenderTests.cs" />
     <Compile Include="UpdateExemptionAmountTests.cs" />
     <Compile Include="UpdateSpendAmountTests.cs" />
     <Compile Include="UpdateTaxAmountTests.cs" />
