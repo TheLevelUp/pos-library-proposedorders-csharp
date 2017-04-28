@@ -26,16 +26,20 @@ namespace LevelUp.Pos.ProposedOrderCalculator
         /// <param name="totalOutstandingAmount">The current total amount of the check, including tax, in cents.</param>
         /// <param name="totalTaxAmount">The current tax due on the check, in cents.</param>
         /// <param name="totalExemptionAmount">The current total of exempted items on the check, in cents.</param>
-        /// <param name="spendAmount">The amount the user would like to spend, in cents.</param>
+        /// <param name="customerPaymentAmount">The amount the user would like to spend, in cents.</param>
+        /// <param name="appliedDiscountAmount">The discount amount applied to the point of sale for the customer.</param>
         /// <returns>LevelUp.Pos.ProposedOrderCalculator.AdjustedCheckValues</returns>
         public static AdjustedCheckValues CalculateAdjustedCheckValues(
             int totalOutstandingAmount,
             int totalTaxAmount,
             int totalExemptionAmount,
-            int spendAmount
+            int customerPaymentAmount,
+            int appliedDiscountAmount = 0
         )
         {
-            int adjustedSpendAmount = CalculateAdjustedSpendAmount(spendAmount, totalOutstandingAmount);
+            totalOutstandingAmount += Math.Abs(appliedDiscountAmount);
+
+            int adjustedSpendAmount = CalculateAdjustedSpendAmount(customerPaymentAmount, totalOutstandingAmount);
 
             int adjustedTaxAmount = CalculateAdjustedTaxAmount(totalOutstandingAmount, totalTaxAmount, 
                 adjustedSpendAmount);
