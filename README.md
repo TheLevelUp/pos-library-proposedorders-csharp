@@ -84,4 +84,4 @@ var adjustedCheckValues = LevelUp.Pos.ProposedOrderCalculator.Calculator.Calcula
 ## Links
 - [developer.thelevelup.com](https://developer.thelevelup.com)
   - [Create Proposed Order](http://developer.thelevelup.com/api-reference/v15/orders-create-proposed/)
-  - [Complete Proposed Order](http://developer.thelevelup.com/api-reference/v15/orders-create-completed/) 
+  - [Complete Order](http://developer.thelevelup.com/api-reference/v15/orders-create-completed/)
