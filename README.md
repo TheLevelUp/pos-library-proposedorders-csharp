@@ -57,11 +57,11 @@ Below is how you might expect an order flow to work with this library to create 
 // Retreive the inputs to this library from the check (described in the introduction)
 // ...
 
-var adjustedCheckValues = LevelUp.Pos.ProposedOrderCalculator.Calculator.CalculateAdjustedCheckValues(
+var adjustedCheckValues = LevelUp.Pos.ProposedOrderCalculator.Calculator.CalculateCreateProposedOrderValues(
     totalOutstandingAmount,
     totalTaxAmount,
     totalExemptionAmount,
-    spendAmount
+    customerPaymentAmount
 );
 
 // -> API Call: LevelUp Create Proposed Order
@@ -69,7 +69,15 @@ var adjustedCheckValues = LevelUp.Pos.ProposedOrderCalculator.Calculator.Calcula
 
 // Retrieve the inputs to this library again (the tax, for instance, has likely changed)
 
-// -> API Call: LevelUp Complete Proposed Order
+var adjustedCheckValues = LevelUp.Pos.ProposedOrderCalculator.Calculator.CalculateCompleteOrderValues(
+    totalOutstandingAmount,
+    totalTaxAmount,
+    totalExemptionAmount,
+    customerPaymentAmount,
+    appliedDiscountAmount
+);
+
+// -> API Call: LevelUp Complete Order
 // <- If successful, the process of placing a LevelUp order is finished
 ```
 
