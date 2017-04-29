@@ -6,7 +6,7 @@
 - [Links](#links)
 
 ## Introduction
-For point-of-sale and point-of-sale-integration developers working with LevelUp, this library simplifies what a developer needs to know to create orders for users.
+For point-of-sale and point-of-sale-integration developers working with LevelUp, this library simplifies what a developer needs to know to create orders for customers.
 
 This single method takes known data from your check, such as:
 
