@@ -5,11 +5,11 @@
 - [Links](#links)
 
 ## Introduction
-For point-of-sale and point-of-sale-integration developers working with LevelUp, this library simplifies what a developer needs to know to create orders for customers. Some common inbound questions include, "What happens if a customer only wants to pay part of the bill? What do I send LevelUp?" This tool will take care of that for you.
+For point-of-sale and point-of-sale-integration developers working with LevelUp and LevelUp's Proposed Orders flow, this library simplifies what a developer needs to know to create orders. Some common inbound questions include, "What happens if a customer only wants to pay part of the bill? What do I send LevelUp?" This tool will take care of that for you.
 
 The `ProposedOrderCalculator` accepts known check values such as:
 
-- The current total outstanding amount (including tax) due on the check.
+- The current outstanding amount (including tax) due on the check.
 - The current tax amount on the check.
 - The total amount of items exempt from earning loyalty (e.g. tobacco, alcohol).
 - The amount your customer wants to pay.
@@ -23,49 +23,65 @@ The `ProposedOrderCalculator` accepts known check values such as:
 ## Usage & Order Flow
 Using this library with Proposed Orders is simple.
 
-Before charging a customer with LevelUp, pass values from your check to `ProposedOrderCalculator.CalculateCreateProposedOrderValues(...)` before calling `/v15/proposed_orders`.
+1. Just before a customer pays with LevelUp, retrieve the total due (including tax), the tax due, the total amount of exempted items, and the amount your customer wants to pay and put them into variables. Pass those values to `ProposedOrderCalculator.CalculateCreateProposedOrderValues(...)` before calling `/v15/proposed_orders`.
 
-After applying any LevelUp discount available (returned in the previous API response), pass values from your check one more time to `ProposedOrderCalculator.CalculateCompleteOrderValues(...)` before calling `/v15/completed_orders`.
+2. After applying any LevelUp discount available (returned in the previous API response), the total due (including tax), and the tax due have likely been changed; retrieve those again. Send the original exemption amount and customer payment amount along with the discount you applied to `ProposedOrderCalculator.CalculateCompleteOrderValues(...)` before calling `/v15/completed_orders`.
+
 ```csharp
 class Program
 {
     static void Main(string[] args)
     {
-        // $9.90 is owed, $0.90 of that is tax. $3.00 of that is tobacco/alcohol, and the customer wants to pay
-        // $9.00 towards the check
-        int itemsSubtotalAmount = 900;
-        int taxAmountDue = itemsSubtotalAmount / TAX_RATE;
-        int totalOutstandingAmount = itemsSubtotalAmount + taxAmountDue;
+        // $9.90 is owed, $0.90 of that is tax.
+        // $3.00 of that is tobacco/alcohol
+        // The customer wants to pay $9.00 towards the check
+        // Note: All of these values can be retrieved from the check
+        int totalOutstandingAmount = 990;
+        int taxAmountDue = 90;
         int exemptionAmount = 300;
+        int customerPaymentAmount = 900;
 
-        int spendAmount = 900;
-
-        // Create propsed order
+        // Calculate adjusted values *before* making the /v15/proposed_orders request
         AdjustedCheckValues proposedOrderValues = ProposedOrderCalculator.CalculateCreateProposedOrderValues(
             totalOutstandingAmount,
             taxAmountDue,
             exemptionAmount,
-            spendAmount);
+            customerPaymentAmount);
 
-        // Make LevelUp API call to /v15/proposed_orders using values within proposedOrderValues
+        // proposedOrderValues now contains three adjusted values needed for /v15/proposed_orders
+        // AdjustedCheckValues.spendAmount is 900
+        // AdjustedCheckValues.taxAmount is 0
+        // AdjustedCheckValues.exemptionAmount is 300
+
+        // -> Make request to LevelUp API /v15/proposed_orders using values within proposedOrderValues
+        // <- Response contains the discount amount to apply
 
         // available discount amount $1
         int availableDiscountAmount = 100;
 
-        // POS applies $1.00 pretax discount to check and updates subtotal and tax
-        itemsSubtotalAmount -= availableDiscountAmount;
-        taxAmountDue = itemsSubtotalAmount / TAX_RATE;
-        totalOutstandingAmount = itemsSubtotalAmount + taxAmountDue;
+        // Apply the discount to the Point Of Sale
 
-        // Create completed order
+        // After applying the $1.00 discount, the subtotal has been reduced and the tax amount is recalculated 
+        // by the Point Of Sale. Retrieve those values from the Point Of Sale again.
+        
+        // The "totalOutstandingAmount" is now $8.80; retrieve this updated value from the check 
+        // The "taxAmountDue" is now $0.80; retrieve this updated value from the check
+
+        // Calculate adjusted values *before* making the /v15/completed_orders request
         AdjustedCheckValues completedOrderValues = ProposedOrderCalculator.CalculateCompleteOrderValues(
             totalOutstandingAmount,
             taxAmountDue,
             exemptionAmount,
-            spendAmount,
+            customerPaymentAmount,
             availableDiscountAmount);
 
-        // Make LevelUp API call to /v15/completed_orders using values within completedOrderValues
+        // proposedOrderValues now contains three adjusted values needed for /v15/completed_orders
+        // AdjustedCheckValues.spendAmount is 900
+        // AdjustedCheckValues.taxAmount is 80
+        // AdjustedCheckValues.exemptionAmount is 300
+
+        // -> Make request to LevelUp API /v15/completed_orders using values within completedOrderValues
+        // <- Response
     }
 }
 ```
