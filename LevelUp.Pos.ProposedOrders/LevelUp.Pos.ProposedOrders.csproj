@@ -46,6 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="LevelUpApacheLicense.licenseheader" />
     <None Include="nuspec\ProposedOrderCalculator.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
