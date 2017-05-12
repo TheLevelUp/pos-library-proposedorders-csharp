@@ -1,4 +1,4 @@
-# LevelUp-Point Of Sale Check Calculator
+# LevelUp POS Proposed Order Calculator
 
 - [Introduction](#introduction)
 - [Usage & Order Flow](#usage--order-flow)
