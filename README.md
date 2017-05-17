@@ -2,6 +2,7 @@
 
 - [Introduction](#introduction)
 - [Usage & Order Flow](#usage--order-flow)
+- [Build Instructions](#build-instructions)
 - [Links](#links)
 
 ## Introduction
@@ -85,6 +86,15 @@ class Program
     }
 }
 ```
+
+## Build Instructions
+- Debug build configuration
+  - Visual Studio 2017 (MSBuild 15.0)
+
+- Release build configuration
+  - Visual Studio 2017 (MSBuild 15.0)
+  - [NuGet CLI](https://docs.microsoft.com/en-us/nuget/tools/nuget-exe-cli-reference)
+    - The `nuget` command must be available from the Windows `PATH` variable.
 
 ## Links
 - [developer.thelevelup.com](https://developer.thelevelup.com)

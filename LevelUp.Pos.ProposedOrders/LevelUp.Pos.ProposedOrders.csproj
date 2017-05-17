@@ -47,15 +47,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LevelUpApacheLicense.licenseheader" />
-    <None Include="nuspec\ProposedOrderCalculator.nuspec" />
+    <None Include="nuspec\ProposedOrderCalculator.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Target Name="NuGetPack" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Release' ">
+    <PropertyGroup>
+      <NuspecSourceDirectory>$(ProjectDir)nuspec\</NuspecSourceDirectory>
+      <NuspecVersion>$(GitVersion_NuGetVersion)</NuspecVersion>
+      <NuGetPackCommand>nuget pack $(NuspecSourceDirectory)ProposedOrderCalculator.nuspec -OutputDirectory $(TargetDir) -properties version=$(NuspecVersion)</NuGetPackCommand>
+    </PropertyGroup>
+    <Message Text="$(NuGetPackCommand)" Importance="High" />
+    <Exec Command="$(NuGetPackCommand)" />
+  </Target>
+  <Target Name="CleanNuGetPack" AfterTargets="AfterClean">
+    <ItemGroup>
+      <FilesToDelete Include="$(TargetDir)*.nupkg" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+  </Target>
+  <Import Project="..\packages\GitVersionTask.4.0.0-beta0012\build\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.4.0.0-beta0012\build\GitVersionTask.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.3.6.4\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets'))" />
+    <Error Condition="!Exists('..\packages\GitVersionTask.4.0.0-beta0012\build\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.4.0.0-beta0012\build\GitVersionTask.targets'))" />
   </Target>
 </Project>
