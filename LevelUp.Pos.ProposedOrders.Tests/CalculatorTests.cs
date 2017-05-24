@@ -60,25 +60,5 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                     i, expectedCheckValues, actualCheckValues, Environment.NewLine);
             }
         }
-
-        [TestMethod]
-        public void TestTest123()
-        {
-            int totalOutstandingAmount = 1;
-            int totalTaxAmount = 10;
-            int totalExemptionAmount = 0;
-            int spendAmount = 1;
-
-            AdjustedCheckValues expectedCheckValues =
-                new AdjustedCheckValues(spendAmount:1, taxAmount:1, exemptionAmount:0);
-
-            AdjustedCheckValues actualCheckValues = ProposedOrderCalculator.CalculateCreateProposedOrderValues(
-                totalOutstandingAmount,
-                totalTaxAmount,
-                totalExemptionAmount,
-                spendAmount);
-
-            actualCheckValues.ShouldBeEquivalentTo(expectedCheckValues);
-        }
     }
 }

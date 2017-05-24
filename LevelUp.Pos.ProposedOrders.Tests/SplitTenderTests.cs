@@ -41,7 +41,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
 
             // User pays $10 towards LevelUp
 
-            // Create propsed order: expected values
+            // Create proposed order: expected values
             int expectedTaxAmount = 0;
             int expectedSpendAmount = 1000;
             int expectedExemptionAmount = 0;
@@ -81,7 +81,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             // Create completed order: expected values
             // tax amount unchanged
             // spend amount unchanged
-            // expemption amount unchanged
+            // exemption amount unchanged
 
             AdjustedCheckValues expectedCompletedOrderValues =
                 new AdjustedCheckValues(expectedSpendAmount, expectedTaxAmount, expectedExemptionAmount);
@@ -117,7 +117,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
 
             // User pays remaining balance ($12) towards LevelUp
 
-            // Create propsed order: expected values
+            // Create proposed order: expected values
             int expectedTaxAmount = 200;
             int expectedSpendAmount = 1200;
             int expectedExemptionAmount = 0;
@@ -159,7 +159,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             // Create completed order: expected values
             // adjusted tax amount: $1.90
             // spend amount unchanged: $11.90
-            // expemption amount unchanged
+            // exemption amount unchanged
 
             expectedTaxAmount = 190;
             expectedSpendAmount = 1190;
@@ -191,7 +191,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
 
             int spendAmount = 900;
 
-            // Create propsed order: expected values
+            // Create proposed order: expected values
             AdjustedCheckValues expectedProposedOrderValues =
                 new AdjustedCheckValues(
                     spendAmount: 900,
@@ -219,7 +219,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             // Create completed order: expected values
             // tax amount unchanged
             // spend amount unchanged
-            // expemption amount unchanged
+            // exemption amount unchanged
             AdjustedCheckValues expectedCompletedOrderValues =
                 new AdjustedCheckValues(
                     spendAmount: 900,
@@ -251,7 +251,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
 
             int spendAmount = 800;
 
-            // Create propsed order: expected values
+            // Create proposed order: expected values
             AdjustedCheckValues expectedProposedOrderValues = 
                 new AdjustedCheckValues(
                     spendAmount:800, 
@@ -279,7 +279,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             // Create completed order: expected values
             // spend amount unchanged
             // tax amount unchanged
-            // expemption amount *changed*
+            // exemption amount *changed*
             AdjustedCheckValues expectedCompletedOrderValues =
                 new AdjustedCheckValues(
                     spendAmount: 800,
