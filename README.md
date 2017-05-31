@@ -76,7 +76,7 @@ class Program
             customerPaymentAmount,
             availableDiscountAmount);
 
-        // proposedOrderValues now contains three adjusted values needed for /v15/completed_orders
+        // completedOrderValues now contains three adjusted values needed for /v15/completed_orders
         // AdjustedCheckValues.spendAmount is 900
         // AdjustedCheckValues.taxAmount is 80
         // AdjustedCheckValues.exemptionAmount is 300
@@ -97,6 +97,6 @@ class Program
     - The `nuget` command must be available from the Windows `PATH` variable.
 
 ## Links
-- [developer.thelevelup.com](https://developer.thelevelup.com)
+- [developer.thelevelup.com](http://developer.thelevelup.com)
   - [Create Proposed Order](http://developer.thelevelup.com/api-reference/v15/orders-create-proposed/)
   - [Complete Order](http://developer.thelevelup.com/api-reference/v15/orders-create-completed/)
