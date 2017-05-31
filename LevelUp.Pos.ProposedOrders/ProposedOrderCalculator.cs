@@ -18,6 +18,7 @@
 #endregion
 
 using System;
+using LevelUp.Api.Utilities;
 
 namespace LevelUp.Pos.ProposedOrders
 {
@@ -33,10 +34,44 @@ namespace LevelUp.Pos.ProposedOrders
             TaxAmount = taxAmount;
             ExemptionAmount = exemptionAmount;
         }
+        public AdjustedCheckValuesInDollars ToDollars()
+        {
+            return new AdjustedCheckValuesInDollars(
+                Money.ToDollars(SpendAmount),
+                Money.ToDollars(TaxAmount),
+                Money.ToDollars(ExemptionAmount));
+        }
 
         public override string ToString()
         {
             return $"SpendAmount={SpendAmount};TaxAmount={TaxAmount};ExemptionAmount={ExemptionAmount};";
+        }
+    }
+
+    public class AdjustedCheckValuesInDollars
+    {
+        public decimal SpendAmount { get; }
+        public decimal TaxAmount { get; }
+        public decimal ExemptionAmount { get; }
+
+        internal AdjustedCheckValuesInDollars(decimal spendAmount, decimal taxAmount, decimal exemptionAmount)
+        {
+            SpendAmount = spendAmount;
+            TaxAmount = taxAmount;
+            ExemptionAmount = exemptionAmount;
+        }
+
+        public AdjustedCheckValues ToCents()
+        {
+            return new AdjustedCheckValues(
+                Money.ToCents(SpendAmount), 
+                Money.ToCents(TaxAmount),
+                Money.ToCents(ExemptionAmount));
+        }
+
+        public override string ToString()
+        {
+            return $"SpendAmount=${SpendAmount};TaxAmount=${TaxAmount};ExemptionAmount=${ExemptionAmount};";
         }
     }
 
@@ -70,6 +105,20 @@ namespace LevelUp.Pos.ProposedOrders
             return new AdjustedCheckValues(adjustedSpendAmount, adjustedTaxAmount, adjustedExemptionAmount);
         }
 
+        public static AdjustedCheckValues CalculateCreateProposedOrderValuesFromDollars(
+            decimal totalOutstandingAmount,
+            decimal totalTaxAmount,
+            decimal totalExemptionAmount,
+            decimal customerPaymentAmount
+        )
+        {
+            return CalculateCreateProposedOrderValues(
+                Money.ToCents(totalOutstandingAmount),
+                Money.ToCents(totalTaxAmount),
+                Money.ToCents(totalExemptionAmount),
+                Money.ToCents(customerPaymentAmount));
+        }
+
         /// <summary>
         /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValues object containing the 
         /// spend_amount, tax_amount, and exemption_amount to submit a LevelUp Complete Order API request.
@@ -98,6 +147,22 @@ namespace LevelUp.Pos.ProposedOrders
                 customerPaymentAmount, appliedDiscountAmount);
 
             return values;
+        }
+
+        public static AdjustedCheckValues CalculateCompleteOrderValuesFromDollars(
+            decimal totalOutstandingAmount,
+            decimal totalTaxAmount,
+            decimal totalExemptionAmount,
+            decimal customerPaymentAmount,
+            decimal appliedDiscountAmount
+        )
+        {
+            return CalculateCompleteOrderValues(
+                Money.ToCents(totalOutstandingAmount),
+                Money.ToCents(totalTaxAmount),
+                Money.ToCents(totalExemptionAmount),
+                Money.ToCents(customerPaymentAmount),
+                Money.ToCents(appliedDiscountAmount));
         }
 
         internal static int CalculateAdjustedCustomerPaymentAmount(int totalOutstandingAmount, int customerPaymentAmount)
