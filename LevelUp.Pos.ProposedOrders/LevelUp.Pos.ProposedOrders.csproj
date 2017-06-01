@@ -64,7 +64,7 @@
     <PropertyGroup>
       <NuspecSourceDirectory>$(ProjectDir)nuspec\</NuspecSourceDirectory>
       <NuspecVersion>$(GitVersion_NuGetVersion)</NuspecVersion>
-      <NuGetPackCommand>nuget pack $(NuspecSourceDirectory)ProposedOrderCalculator.nuspec -OutputDirectory $(TargetDir) -properties version=$(NuspecVersion)</NuGetPackCommand>
+      <NuGetPackCommand>nuget pack "$(NuspecSourceDirectory)ProposedOrderCalculator.nuspec" -OutputDirectory "$(TargetDir) " -properties version=$(NuspecVersion)</NuGetPackCommand>
     </PropertyGroup>
     <Message Text="$(NuGetPackCommand)" Importance="High" />
     <Exec Command="$(NuGetPackCommand)" />
