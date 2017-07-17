@@ -16,5 +16,6 @@
   </metadata>
   <files>
     <file src="..\bin\**\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.dll" target="lib\net30\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.dll" />
+    <file src="..\bin\**\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.xml" target="lib\net30\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.xml" />
   </files>
 </package>
