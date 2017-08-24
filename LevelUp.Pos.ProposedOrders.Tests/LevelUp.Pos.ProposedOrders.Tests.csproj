@@ -52,7 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplitTenderTests.cs" />
     <Compile Include="UpdateExemptionAmountTests.cs" />
-    <Compile Include="UpdateSpendAmountCompleteOrderTests.cs" />
     <Compile Include="UpdateSpendAmountTests.cs" />
     <Compile Include="UpdateTaxAmountTests.cs" />
   </ItemGroup>

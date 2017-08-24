@@ -58,14 +58,20 @@ namespace LevelUp.Pos.ProposedOrders
             int customerPaymentAmount
         )
         {
-            int adjustedSpendAmount =
-                CalculateAdjustedCustomerPaymentAmount(customerPaymentAmount, totalOutstandingAmount);
+            int adjustedSpendAmount = CalculateAdjustedCustomerPaymentAmount(
+                customerPaymentAmount, 
+                totalOutstandingAmount);
 
-            int adjustedTaxAmount = CalculateAdjustedTaxAmount(totalOutstandingAmount, totalTaxAmount,
+            int adjustedTaxAmount = CalculateAdjustedTaxAmount(
+                totalOutstandingAmount, 
+                totalTaxAmount,
                 adjustedSpendAmount);
 
-            int adjustedExemptionAmount = CalculateAdjustedExemptionAmount(totalOutstandingAmount, totalTaxAmount,
-                totalExemptionAmount, adjustedSpendAmount);
+            int adjustedExemptionAmount = CalculateAdjustedExemptionAmount(
+                totalOutstandingAmount, 
+                totalTaxAmount,
+                totalExemptionAmount, 
+                adjustedSpendAmount);
 
             return new AdjustedCheckValues(adjustedSpendAmount, adjustedTaxAmount, adjustedExemptionAmount);
         }
@@ -88,23 +94,38 @@ namespace LevelUp.Pos.ProposedOrders
             int appliedDiscountAmount
         )
         {
-            AdjustedCheckValues values = CalculateCreateProposedOrderValues(
-                totalOutstandingAmount,
+            int totalOutstandingAmountWithDiscount = totalOutstandingAmount + Math.Abs(appliedDiscountAmount);
+
+            int adjustedSpendAmount = CalculateAdjustedCustomerPaymentAmount(
+                customerPaymentAmount, 
+                totalOutstandingAmountWithDiscount);
+
+            int adjustedTaxAmount = CalculateAdjustedTaxAmount(
+                totalOutstandingAmountWithDiscount, 
                 totalTaxAmount,
-                totalExemptionAmount,
-                customerPaymentAmount);
+                adjustedSpendAmount);
 
-            values.SpendAmount = CalculateAdjustedSpendAmountCompleteOrder(totalOutstandingAmount, 
-                customerPaymentAmount, appliedDiscountAmount);
+            int adjustedExemptionAmount = CalculateAdjustedExemptionAmount(
+                totalOutstandingAmountWithDiscount,
+                totalTaxAmount,
+                totalExemptionAmount, 
+                adjustedSpendAmount);
 
-            return values;
+            return new AdjustedCheckValues(adjustedSpendAmount, adjustedTaxAmount, adjustedExemptionAmount);
         }
 
+        /// <summary>
+        /// A customer can not pay more than the largest amount due on a check.
+        /// </summary>
         internal static int CalculateAdjustedCustomerPaymentAmount(int totalOutstandingAmount, int customerPaymentAmount)
         {
             return Math.Max(0, Math.Min(customerPaymentAmount, totalOutstandingAmount));
         }
 
+        /// <summary>
+        /// For LevelUp Proposed/Complete Order, with partial payments, the last user to pay is responsible for paying
+        /// the tax.
+        /// </summary>
         internal static int CalculateAdjustedTaxAmount(
             int totalOutstandingAmount,
             int totalTaxAmount,
@@ -124,6 +145,11 @@ namespace LevelUp.Pos.ProposedOrders
             return totalTaxAmount;
         }
 
+        /// <summary>
+        /// For LevelUp Proposed/Complete Order, with partial payments, the last user to pay bears the burden of
+        /// exemption amounts. We allow anyone paying to use discount credit until the remaining amount owed is
+        /// less than or equal to the amount of exempted items on the check.
+        /// </summary>
         internal static int CalculateAdjustedExemptionAmount(
             int totalOutstandingAmount,
             int totalTaxAmount,
@@ -147,30 +173,6 @@ namespace LevelUp.Pos.ProposedOrders
                 postAdjustedCustomerPaymentAmount);
 
             return Math.Max(0, adjustedExemptionAmount);
-        }
-
-        /// <summary>
-        /// Adjusts the `spend_amount` by considering the amount a customer wants to pay, the total due on the check 
-        /// after applying the discount (0 if none was available), and the discount amount applied. The user will never 
-        /// pay more than their requested spend amount, including any discount amount applied.
-        /// </summary>
-        /// <remarks>
-        /// If we know what is owed now, and we know what discount was applied, then we know what was originally owed.
-        /// Using that information, we can determine if the customer attempted a partial payment or not. If a customer
-        /// attempts a partial payment, the `spend_amount` is equal to the customerSpendAmount. If the customer is
-        /// paying the balance in full, the `spend_amount` is equal to the totalOutstandingAmount + appliedDiscountAmount.
-        /// </remarks>
-        /// <param name="totalOutstandingAmount">The current total amount of the check, including tax, in cents.</param>
-        /// <param name="customerSpendAmount">The amount the customer would like to spend, in cents.</param>
-        /// <param name="appliedDiscountAmount">The discount amount applied to the point of sale for the customer.</param>
-        /// <returns></returns>
-        internal static int CalculateAdjustedSpendAmountCompleteOrder(int totalOutstandingAmount,
-            int customerSpendAmount,
-            int appliedDiscountAmount)
-        {
-            int theoreticalTotalOutstandingAmount = totalOutstandingAmount + Math.Abs(appliedDiscountAmount);
-
-            return Math.Max(0, Math.Min(customerSpendAmount, theoreticalTotalOutstandingAmount));
         }
     }
 }

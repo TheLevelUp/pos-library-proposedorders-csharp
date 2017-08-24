@@ -151,7 +151,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         }
        
         [TestMethod]
-        public void SplitTenderExample_LevelUp_Then_Cash_With_Exemptions()
+        public void SplitTenderExample_NoChangeInSpendOrTax_AfterLevelUpPaidFirst()
         {
             // $9.90 is owed, $0.90 of that is tax. $3.00 of that is tobacco/alcohol, and the customer wants to pay
             // $9.00 towards the check
@@ -182,70 +182,16 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             // POS applies $1.00 pretax discount to check and updates subtotal and tax
             check.ApplyDiscount(100);
 
-            // Create completed order: expected values
-            // tax amount unchanged
-            // spend amount unchanged
-            // exemption amount unchanged
+            // $8.00 (Subtotal)
+            // $0.80 (Tax)
+            // $8.80 (Total)
+            // $9.80 (Total + Applied Discount)
+
             AdjustedCheckValues expectedCompletedOrderValues =
                 new AdjustedCheckValues(
                     spendAmount: 900,
-                    taxAmount: 80,
-                    exemptionAmount: 300);
-
-            AdjustedCheckValues completedOrderValues = ProposedOrderCalculator.CalculateCompleteOrderValues(
-                check.TotalOutstandingAmount,
-                check.TotalTaxAmount,
-                exemptionAmount,
-                spendAmount,
-                availableDiscountAmount);
-
-            completedOrderValues.ShouldBeEquivalentTo(expectedCompletedOrderValues,
-                $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
-                $"Actual: {completedOrderValues}");
-        }
-
-        // Adjusted Spend = No, Exemption = Yes, Tax = Yes
-        [TestMethod]
-        public void SplitTenderExample_LevelUp_Then_Cash_With_Adjusted_Exemption_And_Adjusted_Tax()
-        {
-            // $11.00 is owed, $1.00 of that is tax. $5.00 of that is tobacco/alcohol, and the customer wants to pay
-            // $8.00 towards the check
-            Check check = new Check(total: 1100, tax: 100);
-            int exemptionAmount = 500;
-            int spendAmount = 800;
-
-            // Create proposed order: expected values
-            AdjustedCheckValues expectedProposedOrderValues = 
-                new AdjustedCheckValues(
-                    spendAmount:800, 
-                    taxAmount:0, 
-                    exemptionAmount:300);
-
-            AdjustedCheckValues proposedOrderValues = ProposedOrderCalculator.CalculateCreateProposedOrderValues(
-                check.TotalOutstandingAmount,
-                check.TotalTaxAmount,
-                exemptionAmount,
-                spendAmount);
-
-            proposedOrderValues.ShouldBeEquivalentTo(expectedProposedOrderValues,
-                $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
-                $"Actual: {proposedOrderValues}");
-
-            // available discount amount $1
-            int availableDiscountAmount = 100;
-
-            // POS applies $1.00 pretax discount to check and updates subtotal and tax
-            check.ApplyDiscount(availableDiscountAmount);
-
-            // Create completed order: expected values
-            // spend amount unchanged
-            // tax amount unchanged
-            // exemption amount *changed*
-            AdjustedCheckValues expectedCompletedOrderValues =
-                new AdjustedCheckValues(
-                    spendAmount: 800,
                     taxAmount: 0,
-                    exemptionAmount: 400);
+                    exemptionAmount: 300);
 
             AdjustedCheckValues completedOrderValues = ProposedOrderCalculator.CalculateCompleteOrderValues(
                 check.TotalOutstandingAmount,
@@ -267,7 +213,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         /// In this example, the second payment will still be responsible for some tax.
         /// </remarks>
         [TestMethod]
-        public void SplitTenderExample_LevelUp_Second_Discount_Remaining_Balance()
+        public void SplitTenderExample_SpendAndTaxAreAdjusted_WhenLevelUpDiscountApplied()
         {
             // $22.00 is owed, $2.00 of that is tax. $0.00 of that is tobacco/alcohol, and the customer wants to pay
             // $12.00 towards the check all of which is discountable.
@@ -301,13 +247,74 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             // POS applies $10.00 pretax discount to check and updates subtotal and tax
             check.ApplyDiscount(availableDiscountAmount);
 
-            // Create completed order: expected values
-            // Because a pre-tax discount of $10.00 was applied, the new, taxable total is $20.00 - $10.00 = $10.00
-            // The new tax on this new subtotal is $1.00
+            // $ 0.00 (Subtotal Remaining)
+            // $ 1.00 (Tax)
+            // $ 1.00 (Total)
+            // $11.00 (Total + Discount Applied) 
+
             AdjustedCheckValues expectedCompletedOrderValues =
                 new AdjustedCheckValues(
                     spendAmount: 1100,      // spendAmount will include appliedDiscount and remaining tax
                     taxAmount: 100,         // the remaining portion of the tax will be paid
+                    exemptionAmount: 0);
+
+            AdjustedCheckValues completedOrderValues = ProposedOrderCalculator.CalculateCompleteOrderValues(
+                check.TotalOutstandingAmount,
+                check.TotalTaxAmount,
+                exemptionAmount,
+                spendAmount,
+                availableDiscountAmount);
+
+            completedOrderValues.ShouldBeEquivalentTo(expectedCompletedOrderValues,
+                $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
+                $"Actual: {completedOrderValues}");
+        }
+
+        /// <summary>
+        /// This was an example where more than half of the check was discounted. This was added after a bug
+        /// was found which could result in the tax_amount being incorrectly adjusted (increasing) on the 
+        /// CalculateCompleteOrderValues(); call.
+        /// </summary>
+        [TestMethod]
+        public void SplitTenderExample_NoChangeInSpendOrTax_WhenMostOfCheckIsDiscounted()
+        {
+            // $22.00 is owed, $2.00 of that is tax. $0.00 of that is tobacco/alcohol, and the customer wants to pay
+            // $12.00 towards the check all of which is discountable.
+            Check check = new Check(total: 1060, tax: 60);
+            int exemptionAmount = 0;
+            int spendAmount = 530;
+
+            // Create proposed order: expected values
+            AdjustedCheckValues expectedProposedOrderValues =
+                new AdjustedCheckValues(
+                    spendAmount: 530,       // amount the customer wants to pay
+                    taxAmount: 0,           // no tax will be due for this payment; tax will be paid "at the end"
+                    exemptionAmount: 0);    // there are no exemptions
+
+            AdjustedCheckValues proposedOrderValues = ProposedOrderCalculator.CalculateCreateProposedOrderValues(
+                check.TotalOutstandingAmount,
+                check.TotalTaxAmount,
+                exemptionAmount,
+                spendAmount);
+
+            proposedOrderValues.ShouldBeEquivalentTo(expectedProposedOrderValues,
+                $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
+                $"Actual: {proposedOrderValues}");
+
+            // available discount amount $5.30
+            int availableDiscountAmount = 530;
+
+            check.ApplyDiscount(availableDiscountAmount);
+
+            // $ 4.70 (Subtotal Remaining)
+            // $ 0.28 (Tax)
+            // $ 4.98 (Total)
+            // $10.28 (Total + Discount Applied) 
+
+            AdjustedCheckValues expectedCompletedOrderValues =
+                new AdjustedCheckValues(
+                    spendAmount: 530,      
+                    taxAmount: 0,
                     exemptionAmount: 0);
 
             AdjustedCheckValues completedOrderValues = ProposedOrderCalculator.CalculateCompleteOrderValues(
