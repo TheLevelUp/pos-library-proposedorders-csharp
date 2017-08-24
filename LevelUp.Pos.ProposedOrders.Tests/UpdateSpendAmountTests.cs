@@ -32,8 +32,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int outstandingTotalOnCheck = 1000;
             int amountCustomerIsPaying = 1200;
 
-            ProposedOrderCalculator.CalculateAdjustedCustomerPaymentAmount(outstandingTotalOnCheck, amountCustomerIsPaying)
-                .Should()
+            ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
+                .PaymentAmount.Should()
                 .Be(outstandingTotalOnCheck);
         }
 
@@ -44,8 +44,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int outstandingTotalOnCheck = 1000;
             int amountCustomerIsPaying = 1000;
 
-            ProposedOrderCalculator.CalculateAdjustedCustomerPaymentAmount(outstandingTotalOnCheck, amountCustomerIsPaying)
-                .Should()
+            ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
+                .PaymentAmount.Should()
                 .Be(amountCustomerIsPaying);
         }
 
@@ -56,8 +56,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int outstandingTotalOnCheck = 1000;
             int amountCustomerIsPaying = 800;
 
-            ProposedOrderCalculator.CalculateAdjustedCustomerPaymentAmount(outstandingTotalOnCheck, amountCustomerIsPaying)
-                .Should()
+            ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
+                .PaymentAmount.Should()
                 .Be(amountCustomerIsPaying);
         }
 
@@ -68,8 +68,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int outstandingTotalOnCheck = 1000;
             int amountCustomerIsPaying = 0;
 
-            ProposedOrderCalculator.CalculateAdjustedCustomerPaymentAmount(outstandingTotalOnCheck, amountCustomerIsPaying)
-                .Should()
+            ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
+                .PaymentAmount.Should()
                 .Be(amountCustomerIsPaying);
         }
     }

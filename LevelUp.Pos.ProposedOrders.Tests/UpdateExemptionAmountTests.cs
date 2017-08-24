@@ -39,8 +39,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 1200;
                 int amountCustomerIsPaying = 1000;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(900);
             }
 
@@ -52,8 +52,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 1050;
                 int amountCustomerIsPaying = 1000;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(900);
             }
 
@@ -66,8 +66,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 1000;
                 int amountCustomerIsPaying = 1000;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(900);
             }
 
@@ -80,8 +80,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 0;
                 int amountCustomerIsPaying = 1000;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(0);
             }
 
@@ -94,8 +94,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 100;
                 int amountCustomerIsPaying = 1000;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(100);
             }
 
@@ -108,8 +108,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 899;
                 int amountCustomerIsPaying = 1000;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(899);
             }
 
@@ -121,8 +121,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 900;
                 int amountCustomerIsPaying = 1000;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(900);
             }
 
@@ -134,8 +134,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 901;
                 int amountCustomerIsPaying = 1000;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(900);
             }
         }
@@ -156,8 +156,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 1200;
                 int amountCustomerIsPaying = 500;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(500);
             }
 
@@ -169,8 +169,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 1050;
                 int amountCustomerIsPaying = 500;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(500);
             }
 
@@ -183,8 +183,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 1000;
                 int amountCustomerIsPaying = 500;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(500);
             }
 
@@ -197,8 +197,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 0;
                 int amountCustomerIsPaying = 500;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(0);
             }
 
@@ -211,8 +211,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int exemptionAmount = 100;
                 int amountCustomerIsPaying = 500;
 
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(0);
             }
 
@@ -226,8 +226,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int amountCustomerIsPaying = 500;
 
                 // of the $9.00 subtotal, only $4.99 is exempt; $9.00 - $4.99 = $4.01 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(99);
             }
 
@@ -240,8 +240,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int amountCustomerIsPaying = 500;
 
                 // of the $9.00 subtotal, only $5.00 is exempt; $9.00 - $5.00 = $4.00 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(100);
             }
 
@@ -254,8 +254,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int amountCustomerIsPaying = 500;
 
                 // of the $9.00 subtotal, only $5.01 is exempt; $9.00 - $5.01 = $3.99 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(101);
             }
 
@@ -269,8 +269,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int amountCustomerIsPaying = 500;
 
                 // of the $9.00 subtotal, only $4.99 is exempt; $9.00 - $3.99 = $5.01 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(0);
             }
 
@@ -283,8 +283,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int amountCustomerIsPaying = 500;
 
                 // of the $9.00 subtotal, only $5.00 is exempt; $9.00 - $4.00 = $5.00 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(0);
             }
 
@@ -297,8 +297,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int amountCustomerIsPaying = 500;
 
                 // of the $9.00 subtotal, only $5.01 is exempt; $9.00 - $4.01 = $4.99 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(1);
             }
         }
@@ -316,8 +316,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int amountCustomerIsPaying = 500;
 
                 // of the $6.00 subtotal, only $4.99 is exempt; $6.00 - $3.99 = $2.01 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(399);
             }
 
@@ -330,8 +330,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int amountCustomerIsPaying = 500;
 
                 // of the $6.00 subtotal, only $5.00 is exempt; $6.00 - $4.00 = $2.00 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(400);
             }
 
@@ -344,8 +344,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 int amountCustomerIsPaying = 500;
 
                 // of the $6.00 subtotal, only $5.01 is exempt; $6.00 - $4.01 = $1.99 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateAdjustedExemptionAmount(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .Should()
+                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
+                    .ExemptionAmount.Should()
                     .Be(400);
             }
         }

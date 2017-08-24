@@ -23,7 +23,7 @@ namespace LevelUp.Pos.ProposedOrders
 {
     public class AdjustedCheckValues
     {
-        public int SpendAmount { get; internal set; }
+        public int SpendAmount { get; }
         public int TaxAmount { get; }
         public int ExemptionAmount { get; }
 
@@ -40,109 +40,127 @@ namespace LevelUp.Pos.ProposedOrders
         }
     }
 
+    internal class CheckData
+    {
+        public int PaymentAmount { get; set; }
+        public int TaxAmount { get; set; }
+        public int ExemptionAmount { get; set; }
+        public int OutstandingAmount { get; set; }
+        public int PreTaxSubtotal => OutstandingAmount - TaxAmount;
+        public int NonExemptSubtotal => PreTaxSubtotal - ExemptionAmount;
+    }
+
     public static class ProposedOrderCalculator
     {
         /// <summary>
         /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValues object containing the 
         /// spend_amount, tax_amount, and exemption_amount to submit a LevelUp Create Proposed Order API request.
         /// </summary>
-        /// <param name="totalOutstandingAmount">The current total amount of the check, including tax, in cents.</param>
-        /// <param name="totalTaxAmount">The current tax due on the check, in cents.</param>
-        /// <param name="totalExemptionAmount">The current total of exempted items on the check, in cents.</param>
-        /// <param name="customerPaymentAmount">The amount the customer would like to spend, in cents.</param>
+        /// <param name="outstandingAmount">The current total amount of the check, including tax, in cents.</param>
+        /// <param name="taxAmount">The current tax due on the check, in cents.</param>
+        /// <param name="exemptAmount">The current total of exempted items on the check, in cents.</param>
+        /// <param name="paymentAmount">The amount the customer would like to spend, in cents.</param>
         /// <returns>LevelUp.Pos.ProposedOrderCalculator.CalculateCreateProposedOrderValues</returns>
         public static AdjustedCheckValues CalculateCreateProposedOrderValues(
-            int totalOutstandingAmount,
-            int totalTaxAmount,
-            int totalExemptionAmount,
-            int customerPaymentAmount
+            int outstandingAmount,
+            int taxAmount,
+            int exemptAmount,
+            int paymentAmount
         )
         {
-            int adjustedSpendAmount = CalculateAdjustedCustomerPaymentAmount(
-                customerPaymentAmount, 
-                totalOutstandingAmount);
-
-            int adjustedTaxAmount = CalculateAdjustedTaxAmount(
-                totalOutstandingAmount, 
-                totalTaxAmount,
-                adjustedSpendAmount);
-
-            int adjustedExemptionAmount = CalculateAdjustedExemptionAmount(
-                totalOutstandingAmount, 
-                totalTaxAmount,
-                totalExemptionAmount, 
-                adjustedSpendAmount);
-
-            return new AdjustedCheckValues(adjustedSpendAmount, adjustedTaxAmount, adjustedExemptionAmount);
+            return CalculateOrderValues(
+                outstandingAmount,
+                taxAmount,
+                exemptAmount,
+                paymentAmount);
         }
 
         /// <summary>
         /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValues object containing the 
         /// spend_amount, tax_amount, and exemption_amount to submit a LevelUp Complete Order API request.
         /// </summary>
-        /// <param name="totalOutstandingAmount">The current total amount of the check, including tax, in cents.</param>
-        /// <param name="totalTaxAmount">The current tax due on the check, in cents.</param>
-        /// <param name="totalExemptionAmount">The current total of exempted items on the check, in cents.</param>
-        /// <param name="customerPaymentAmount">The amount the customer would like to spend, in cents.</param>
+        /// <param name="outstandingAmount">The current total amount of the check, including tax, in cents.</param>
+        /// <param name="taxAmount">The current tax due on the check, in cents.</param>
+        /// <param name="exemptAmount">The current total of exempted items on the check, in cents.</param>
+        /// <param name="paymentAmount">The amount the customer would like to spend, in cents.</param>
         /// <param name="appliedDiscountAmount">The discount amount applied to the point of sale for the customer.</param>
         /// <returns>LevelUp.Pos.ProposedOrderCalculator.CalculateCompleteOrderValues</returns>
         public static AdjustedCheckValues CalculateCompleteOrderValues(
-            int totalOutstandingAmount,
-            int totalTaxAmount,
-            int totalExemptionAmount,
-            int customerPaymentAmount,
+            int outstandingAmount,
+            int taxAmount,
+            int exemptAmount,
+            int paymentAmount,
             int appliedDiscountAmount
         )
         {
-            int totalOutstandingAmountWithDiscount = totalOutstandingAmount + Math.Abs(appliedDiscountAmount);
+            int outstandingAmountWithDiscount = outstandingAmount + Math.Abs(appliedDiscountAmount);
 
-            int adjustedSpendAmount = CalculateAdjustedCustomerPaymentAmount(
-                customerPaymentAmount, 
-                totalOutstandingAmountWithDiscount);
-
-            int adjustedTaxAmount = CalculateAdjustedTaxAmount(
-                totalOutstandingAmountWithDiscount, 
-                totalTaxAmount,
-                adjustedSpendAmount);
-
-            int adjustedExemptionAmount = CalculateAdjustedExemptionAmount(
-                totalOutstandingAmountWithDiscount,
-                totalTaxAmount,
-                totalExemptionAmount, 
-                adjustedSpendAmount);
-
-            return new AdjustedCheckValues(adjustedSpendAmount, adjustedTaxAmount, adjustedExemptionAmount);
+            return CalculateOrderValues(
+                outstandingAmountWithDiscount,
+                taxAmount,
+                exemptAmount,
+                paymentAmount);
         }
 
-        /// <summary>
-        /// A customer can not pay more than the largest amount due on a check.
-        /// </summary>
-        internal static int CalculateAdjustedCustomerPaymentAmount(int totalOutstandingAmount, int customerPaymentAmount)
+        internal static AdjustedCheckValues CalculateOrderValues(
+            int outstandingAmount,
+            int taxAmount,
+            int exemptionAmount,
+            int paymentAmount)
         {
-            return Math.Max(0, Math.Min(customerPaymentAmount, totalOutstandingAmount));
+            CheckData checkData = SanitizeData(outstandingAmount, taxAmount, exemptionAmount, paymentAmount);
+
+            var adjustedTaxAmount = CalculateAdjustedTaxAmount(checkData);
+
+            var adjustedExemptionAmount = CalculateAdjustedExemptionAmount(checkData);
+
+            return new AdjustedCheckValues(checkData.PaymentAmount, adjustedTaxAmount, adjustedExemptionAmount);
+        }
+
+        internal static CheckData SanitizeData(int outstandingAmount, int taxAmount, int exemptionAmount, int paymentAmount)
+        {
+            var checkData = new CheckData
+            {
+                ExemptionAmount = exemptionAmount,
+                OutstandingAmount = outstandingAmount,
+                PaymentAmount = paymentAmount,
+                TaxAmount = taxAmount
+            };
+
+            checkData.PaymentAmount = PaymentAmountCannotBeGreaterThanOutstandingAmount(
+                checkData.OutstandingAmount, 
+                checkData.PaymentAmount);
+
+            checkData.TaxAmount = TaxAmountCannotBeGreaterThanOutstandingAmount(
+                checkData.OutstandingAmount, 
+                checkData.TaxAmount);
+
+            checkData.ExemptionAmount = ExemptionAmountCannotBeGreaterThanPreTaxSubtotal(
+                checkData.ExemptionAmount, 
+                checkData.PreTaxSubtotal);
+
+            return checkData;
         }
 
         /// <summary>
         /// For LevelUp Proposed/Complete Order, with partial payments, the last user to pay is responsible for paying
         /// the tax.
         /// </summary>
-        internal static int CalculateAdjustedTaxAmount(
-            int totalOutstandingAmount,
-            int totalTaxAmount,
-            int postAdjustedCustomerPaymentAmount)
+        /// <param name="checkData"></param>
+        internal static int CalculateAdjustedTaxAmount(CheckData checkData)
         {
-            totalTaxAmount = Math.Max(0, Math.Min(totalTaxAmount, totalOutstandingAmount));
-
-            bool wasPartialPaymentRequested = postAdjustedCustomerPaymentAmount < totalOutstandingAmount;
-
-            if (wasPartialPaymentRequested)
+            if (checkData.TaxAmount > checkData.OutstandingAmount)
             {
-                int remainingAmountOwedAfterSpend = totalOutstandingAmount - postAdjustedCustomerPaymentAmount;
-
-                totalTaxAmount = Math.Max(0, totalTaxAmount - remainingAmountOwedAfterSpend);
+                throw new Exception("Tax amount cannot be greater than total outstanding amount.");
             }
 
-            return totalTaxAmount;
+            bool isTaxFullyPaid = checkData.PaymentAmount >= checkData.OutstandingAmount;
+            if (isTaxFullyPaid)
+            {
+                return checkData.TaxAmount;
+            }
+
+            return ZeroIfNegative(checkData.PaymentAmount - checkData.PreTaxSubtotal);
         }
 
         /// <summary>
@@ -150,29 +168,38 @@ namespace LevelUp.Pos.ProposedOrders
         /// exemption amounts. We allow anyone paying to use discount credit until the remaining amount owed is
         /// less than or equal to the amount of exempted items on the check.
         /// </summary>
-        internal static int CalculateAdjustedExemptionAmount(
-            int totalOutstandingAmount,
-            int totalTaxAmount,
-            int totalExemptionAmount,
-            int postAdjustedCustomerPaymentAmount)
+        /// <param name="checkData"></param>
+        internal static int CalculateAdjustedExemptionAmount(CheckData checkData)
         {
-            int totalOutstandingAmountLessTax = totalOutstandingAmount - totalTaxAmount;
-
-            bool wasPartialPaymentRequestedWrtSubtotal = postAdjustedCustomerPaymentAmount < totalOutstandingAmountLessTax;
-
-            if (wasPartialPaymentRequestedWrtSubtotal)
+            if (checkData.ExemptionAmount > checkData.PreTaxSubtotal)
             {
-                // defer the exemption amount to last possible paying customer or customers
-                int totalOutstandingLessTaxAfterPayment =
-                    Math.Max(0, totalOutstandingAmountLessTax - postAdjustedCustomerPaymentAmount);
-
-                totalExemptionAmount = Math.Max(0, totalExemptionAmount - totalOutstandingLessTaxAfterPayment);
+                throw new Exception("Exemption amount cannot be greater that the pre-tax total on the check.");
             }
 
-            int adjustedExemptionAmount = Math.Min(Math.Min(totalExemptionAmount, totalOutstandingAmountLessTax),
-                postAdjustedCustomerPaymentAmount);
+            bool isExemptFullyPaid = checkData.PaymentAmount >= checkData.PreTaxSubtotal;
+            if (isExemptFullyPaid)
+            {
+                return checkData.ExemptionAmount;
+            }
 
-            return Math.Max(0, adjustedExemptionAmount);
+            return ZeroIfNegative(checkData.PaymentAmount - checkData.NonExemptSubtotal);
         }
+
+        private static int PaymentAmountCannotBeGreaterThanOutstandingAmount(
+            int outstandingAmount,
+            int paymentAmount)
+            => SmallerOrZeroIfNegative(outstandingAmount, paymentAmount);
+
+        private static int TaxAmountCannotBeGreaterThanOutstandingAmount(int outstandingAmount, int taxAmount)
+            => SmallerOrZeroIfNegative(taxAmount, outstandingAmount);
+
+        private static int ExemptionAmountCannotBeGreaterThanPreTaxSubtotal(
+            int exemptAmount,
+            int outstandingAmount)
+            => SmallerOrZeroIfNegative(exemptAmount, outstandingAmount);
+
+        internal static int SmallerOrZeroIfNegative(int a, int b) => ZeroIfNegative(Math.Min(a, b));
+
+        private static int ZeroIfNegative(int val) => Math.Max(0, val);
     }
 }

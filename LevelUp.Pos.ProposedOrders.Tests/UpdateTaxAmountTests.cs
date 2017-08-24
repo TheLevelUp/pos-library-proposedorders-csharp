@@ -33,8 +33,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int taxAmount = 100;
             int amountCustomerIsPaying = 1000;
 
-            ProposedOrderCalculator.CalculateAdjustedTaxAmount(outstandingTotalOnCheck, taxAmount, amountCustomerIsPaying)
-                .Should()
+            ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying)
+                .TaxAmount.Should()
                 .Be(taxAmount);
         }
 
@@ -46,8 +46,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int taxAmount = 100;
             int amountCustomerIsPaying = 950;
 
-            ProposedOrderCalculator.CalculateAdjustedTaxAmount(outstandingTotalOnCheck, taxAmount, amountCustomerIsPaying)
-                .Should()
+            ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying)
+                .TaxAmount.Should()
                 .Be(50);
         }
 
@@ -59,8 +59,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int taxAmount = 100;
             int amountCustomerIsPaying = 500;
 
-            ProposedOrderCalculator.CalculateAdjustedTaxAmount(outstandingTotalOnCheck, taxAmount, amountCustomerIsPaying)
-                .Should()
+            ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying)
+                .TaxAmount.Should()
                 .Be(0);
         }
 
@@ -71,8 +71,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int taxAmount = 100;
             int amountCustomerIsPaying = 1;
 
-            ProposedOrderCalculator.CalculateAdjustedTaxAmount(outstandingTotalOnCheck, taxAmount, amountCustomerIsPaying)
-                .Should()
+            ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying)
+                .TaxAmount.Should()
                 .Be(0);
         }
 
@@ -84,8 +84,8 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int taxAmount = 100;
             int amountCustomerIsPaying = 0;
 
-            ProposedOrderCalculator.CalculateAdjustedTaxAmount(outstandingTotalOnCheck, taxAmount, amountCustomerIsPaying)
-                .Should()
+            ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying)
+                .TaxAmount.Should()
                 .Be(0);
         }
     }
