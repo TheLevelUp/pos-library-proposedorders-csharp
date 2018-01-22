@@ -45,10 +45,10 @@ namespace LevelUp.Pos.ProposedOrders.Tests.DiTalk
         public void AdjustCompleteOrder_CalculateOutstandingAmount_ThenCallsThreeServices()
         {
             // Arrange
-            var _d = Substitute.For<AdjustCheckService.IDependencies>();
-            _d.MathWrapper.Abs(Arg.Any<int>()).Returns(x => x[0]);
-            _d.DataSanitizerService.SanitizeData(Arg.Any<CheckModel>()).Returns(x => x[0]);
-            var classUnderTest = new AdjustCheckService(_d);
+            var dependencies = Substitute.For<AdjustCheckService.IDependencies>();
+            dependencies.MathWrapper.Abs(Arg.Any<int>()).Returns(x => x[0]);
+            dependencies.DataSanitizerService.SanitizeData(Arg.Any<CheckModel>()).Returns(x => x[0]);
+            var classUnderTest = new AdjustCheckService(dependencies);
 
             var preCalcOutstandingAmount = 10;
             var checkPostCalc = new CheckModel
@@ -68,11 +68,11 @@ namespace LevelUp.Pos.ProposedOrders.Tests.DiTalk
                 2);
 
             // Assert
-            _d.DataSanitizerService.Received(1)
+            dependencies.DataSanitizerService.Received(1)
                 .SanitizeData(Arg.Is<CheckModel>(x => AreChecksEqual(checkPostCalc, x)));
-            _d.AdjustTaxService.Received(1)
+            dependencies.AdjustTaxService.Received(1)
                 .CalculateAdjustedTaxAmount(Arg.Is<CheckModel>(x => AreChecksEqual(checkPostCalc, x)));
-            _d.AdjustExemptService.Received(1)
+            dependencies.AdjustExemptService.Received(1)
                 .CalculateAdjustedExemptionAmount(Arg.Is<CheckModel>(x => AreChecksEqual(checkPostCalc, x)));
         }
 
