@@ -42,3 +42,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("f37d7723-d6cd-4880-8d1c-a38be2924fa8")]
 
 [assembly: InternalsVisibleTo("LevelUp.Pos.ProposedOrders.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

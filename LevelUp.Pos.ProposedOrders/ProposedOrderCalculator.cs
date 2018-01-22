@@ -53,7 +53,7 @@ namespace LevelUp.Pos.ProposedOrders
     public static class ProposedOrderCalculator
     {
         /// <summary>
-        /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValues object containing the 
+        /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValuesModel object containing the 
         /// spend_amount, tax_amount, and exemption_amount to submit a LevelUp Create Proposed Order API request.
         /// </summary>
         /// <param name="outstandingAmount">The current total amount of the check, including tax, in cents.</param>
@@ -76,7 +76,7 @@ namespace LevelUp.Pos.ProposedOrders
         }
 
         /// <summary>
-        /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValues object containing the 
+        /// Accepts known values from the point-of-sale and gives you an AdjustedCheckValuesModel object containing the 
         /// spend_amount, tax_amount, and exemption_amount to submit a LevelUp Complete Order API request.
         /// </summary>
         /// <param name="outstandingAmount">The current total amount of the check, including tax, in cents.</param>
