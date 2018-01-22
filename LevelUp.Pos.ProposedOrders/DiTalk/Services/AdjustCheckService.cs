@@ -26,6 +26,7 @@ namespace LevelUp.Pos.ProposedOrders.DiTalk.Services
             IMathWrapper MathWrapper { get; }
             IAdjustExemptService AdjustExemptService { get; }
             IAdjustTaxService AdjustTaxService { get; }
+            IDataSanitizerService DataSanitizerService { get; }
         }
 
         private readonly IDependencies _d;
@@ -71,6 +72,7 @@ namespace LevelUp.Pos.ProposedOrders.DiTalk.Services
 
         internal AdjustedCheckValuesModel RunAdjustments(CheckModel checkModel)
         {
+            checkModel = _d.DataSanitizerService.SanitizeData(checkModel);
             var adjustedTaxAmount = _d.AdjustTaxService.CalculateAdjustedTaxAmount(checkModel);
             var adjustedExemptionAmount = _d.AdjustExemptService.CalculateAdjustedExemptionAmount(checkModel);
 
