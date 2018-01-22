@@ -72,12 +72,12 @@ namespace LevelUp.Pos.ProposedOrders.DiTalk.Services
 
         internal AdjustedCheckValuesModel RunAdjustments(CheckModel checkModel)
         {
-            checkModel = _d.DataSanitizerService.SanitizeData(checkModel);
-            var adjustedTaxAmount = _d.AdjustTaxService.CalculateAdjustedTaxAmount(checkModel);
-            var adjustedExemptionAmount = _d.AdjustExemptService.CalculateAdjustedExemptionAmount(checkModel);
+            var sanitizedCheck = _d.DataSanitizerService.SanitizeData(checkModel);
+            var adjustedTaxAmount = _d.AdjustTaxService.CalculateAdjustedTaxAmount(sanitizedCheck);
+            var adjustedExemptionAmount = _d.AdjustExemptService.CalculateAdjustedExemptionAmount(sanitizedCheck);
 
             return new AdjustedCheckValuesModel(
-                checkModel.PaymentAmount,
+                sanitizedCheck.PaymentAmount,
                 adjustedTaxAmount,
                 adjustedExemptionAmount);
         }

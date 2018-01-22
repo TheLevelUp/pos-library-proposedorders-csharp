@@ -25,21 +25,14 @@ namespace LevelUp.Pos.ProposedOrders.DiTalk
     public class OrderCalculator
     {
         public AdjustedCheckValuesModel CalculateCreateProposedOrderValues(
-            int outstandingAmount,
-            int taxAmount,
-            int exemptAmount,
-            int paymentAmount
-        )
+            int outstandingAmount, int taxAmount, int exemptAmount, int paymentAmount)
         {
             var iocContainer = Framework.Autofac.GetContainer();
             using (var scope = iocContainer.BeginLifetimeScope())
             {
                 var adjustCheckService = scope.Resolve<IAdjustCheckService>();
                 return adjustCheckService.AdjustProposedOrder(
-                    outstandingAmount,
-                    taxAmount,
-                    exemptAmount,
-                    paymentAmount);
+                    outstandingAmount, taxAmount, exemptAmount, paymentAmount);
             }
         }
 
