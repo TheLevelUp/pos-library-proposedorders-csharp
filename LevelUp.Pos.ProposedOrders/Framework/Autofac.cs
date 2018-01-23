@@ -22,6 +22,11 @@ namespace LevelUp.Pos.ProposedOrders.Framework
             builder.RegisterAssemblyTypes(assembly)
                 .Where(t => t.Namespace?.Contains(WRAPPERS_NAMESPACE) ?? false)
                 .AsImplementedInterfaces();
+            
+            assembly.GetTypes()
+ +                .Where(t => t.IsInterface)
+ +                .Where(t => t.Name == "IDependencies")
+ +                .ForEach(t => builder.RegisterAggregateService(t));
 
             return builder.Build();
         }
