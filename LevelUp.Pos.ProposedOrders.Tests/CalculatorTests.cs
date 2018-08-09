@@ -55,7 +55,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                     totalExemptionAmount,
                     spendAmount);
 
-                actualCheckValues.ShouldBeEquivalentTo(expectedCheckValues,
+                actualCheckValues.Should().BeEquivalentTo(expectedCheckValues,
                     "row={0}; Expected:{1}; Actual: {2}",
                     i, expectedCheckValues, actualCheckValues, Environment.NewLine);
             }

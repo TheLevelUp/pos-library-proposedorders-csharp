@@ -131,7 +131,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             };
 
             Action action = () => ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData);
-            action.ShouldThrow<Exception>();
+            action.Should().Throw<Exception>();
         }
     }
 }
