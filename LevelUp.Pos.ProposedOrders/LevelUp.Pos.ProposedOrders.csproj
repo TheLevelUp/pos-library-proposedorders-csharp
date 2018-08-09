@@ -1,86 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AA9885AD-778C-49DE-AE4F-EE94D2439244}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LevelUp.Pos.ProposedOrders</RootNamespace>
-    <AssemblyName>LevelUp.Pos.ProposedOrders.ProposedOrderCalculator</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
+    <PackageId>LevelUp.Pos.ProposedOrderCalculator</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>SCVNGR Inc .: LevelUp</Authors>
+    <Company>SCVNGR Inc .: LevelUp</Company>
+    <PackageProjectUrl>https://www.thelevelup.com/developers</PackageProjectUrl>
+    <PackageLicenseUrl>https://www.thelevelup.com/developers</PackageLicenseUrl>
+    <Description>Assists developers implementing the LevelUp proposed orders API.</Description>
+    <Copyright>Copyright 2018</Copyright>
+    <RepositoryUrl>https://github.com/TheLevelUp/pos-proposed-orders-csharp</RepositoryUrl>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.xml</DocumentationFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="GitVersionTask" Version="4.0.0-beta0012">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ProposedOrderCalculator.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LevelUpApacheLicense.licenseheader" />
-    <None Include="nuspec\ProposedOrderCalculator.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <Target Name="NuGetPack" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Release' ">
-    <PropertyGroup>
-      <NuspecSourceDirectory>$(ProjectDir)nuspec\</NuspecSourceDirectory>
-      <NuspecVersion>$(GitVersion_NuGetVersion)</NuspecVersion>
-      <NuGetPackCommand>nuget pack "$(NuspecSourceDirectory)ProposedOrderCalculator.nuspec" -OutputDirectory "$(TargetDir) " -properties version=$(NuspecVersion)</NuGetPackCommand>
-    </PropertyGroup>
-    <Message Text="$(NuGetPackCommand)" Importance="High" />
-    <Exec Command="$(NuGetPackCommand)" />
-  </Target>
-  <Target Name="CleanNuGetPack" AfterTargets="AfterClean">
-    <ItemGroup>
-      <FilesToDelete Include="$(TargetDir)*.nupkg" />
-    </ItemGroup>
-    <Delete Files="@(FilesToDelete)" />
-  </Target>
-  <Import Project="..\packages\GitVersionTask.4.0.0-beta0012\build\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.4.0.0-beta0012\build\GitVersionTask.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\GitVersionTask.4.0.0-beta0012\build\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.4.0.0-beta0012\build\GitVersionTask.targets'))" />
-  </Target>
+
 </Project>

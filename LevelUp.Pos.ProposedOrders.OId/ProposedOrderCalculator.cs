@@ -18,9 +18,7 @@
 #endregion
 
 using System;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("LevelUp.Pos.ProposedOrders.Tests")]
 namespace LevelUp.Pos.ProposedOrders
 {
     public class AdjustedCheckValues
