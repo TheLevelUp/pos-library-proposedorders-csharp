@@ -10,6 +10,10 @@
     <Description>Assists developers implementing the LevelUp proposed orders API.</Description>
     <Copyright>Copyright 2018</Copyright>
     <RepositoryUrl>https://github.com/TheLevelUp/pos-proposed-orders-csharp</RepositoryUrl>
+    <AssemblyName>LevelUp.Pos.ProposedOrders.ProposedOrderCalculator</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DocumentationFile>bin\Debug\netstandard2.0\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
