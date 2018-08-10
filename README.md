@@ -89,10 +89,12 @@ class Program
 
 ## Build Instructions
 - Debug build configuration
-  - Visual Studio 2017 (MSBuild 15.0)
+  - Visual Studio 2017 (MSBuild 15.7)
+  - .[NET Core 2.1](https://www.microsoft.com/net/download/dotnet-core/2.1)
+  - .NET Standard 2.0 Support (.NET Framework 4.6.1 and later)
 
 - Release build configuration
-  - Visual Studio 2017 (MSBuild 15.0)
+  - Visual Studio 2017 (MSBuild 15.7)
   - [NuGet CLI](https://docs.microsoft.com/en-us/nuget/tools/nuget-exe-cli-reference)
     - The `nuget` command must be available from the Windows `PATH` variable.
 
