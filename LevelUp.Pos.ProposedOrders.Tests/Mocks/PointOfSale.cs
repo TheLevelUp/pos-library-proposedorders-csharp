@@ -1,11 +1,13 @@
-﻿namespace LevelUp.Pos.ProposedOrders.Tests.Mocks
+﻿using System;
+
+namespace LevelUp.Pos.ProposedOrders.Tests.Mocks
 {
     /// <summary>
     /// This class is meant to streamline expected calculations from a typical point of sale for the purpose of 
     /// testing.  The behavior of this class expects a starting total amount due (including tax), and the tax amount.
     /// It handles applying pre-tax discounts and standard payments/tenders.
     /// </summary>
-    internal class Check
+    internal class PointOfSale
     {
         private int StartingTotal { get; }
         private int StartingTax { get; }
@@ -17,7 +19,9 @@
 
         private int AdjustedSubtotal => StartingSubtotal - TotalDiscounts;
         private decimal AdjustedSubtotalInDollars => AdjustedSubtotal / 100.0M;
-        private int AdjustedTax => decimal.ToInt32(AdjustedSubtotalInDollars * TaxRate * 100.0M);
+
+        private int AdjustedTax =>
+            decimal.ToInt32(Math.Round(AdjustedSubtotalInDollars * TaxRate * 100.0M, MidpointRounding.ToEven));
 
         /// <summary>
         /// The current amount, in cents, owed by a customer, at any given moment.
@@ -35,8 +39,15 @@
         /// </summary>
         /// <param name="total">The intial amount due on the check including tax, in cents.</param>
         /// <param name="tax">The initial tax due on the check, in cents.</param>
-        public Check(int total, int tax)
+        public PointOfSale(int total, int tax)
         {
+            if (total == tax)
+            {
+                throw new Exception($"The total must be greater than tax (a subtotal amount must exist). If the intent " +
+                                    $"is to test a partial payment scenario, use the ${nameof(ApplyTender)} method to " +
+                                    $"reduce the outstanding balance.");
+            }
+
             StartingTotal = total;
             StartingTax = tax;
         }

@@ -50,7 +50,8 @@
     <Compile Include="Data\CalculatorTestData.cs" />
     <Compile Include="CalculateAdjustedExemptionTests.cs" />
     <Compile Include="CalculateAdjustedTaxAmountTests.cs" />
-    <Compile Include="Mocks\Check.cs" />
+    <Compile Include="Mocks\PointOfSale.cs" />
+    <Compile Include="PointOfSaleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplitTenderTests.cs" />
     <Compile Include="UpdateExemptionAmountTests.cs" />
