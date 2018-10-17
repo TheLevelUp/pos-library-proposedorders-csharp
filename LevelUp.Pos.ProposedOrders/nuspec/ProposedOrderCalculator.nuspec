@@ -15,7 +15,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\bin\**\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.dll" target="lib\net40\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.dll" />
-    <file src="..\bin\**\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.xml" target="lib\net40\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.xml" />
+    <file src="..\bin\**\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.dll" target="lib\net40" />
+    <file src="..\bin\**\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.xml" target="lib\net40" />
   </files>
 </package>
