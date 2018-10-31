@@ -34,7 +34,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             // Check details (prior to LevelUp Scan)
             //   Item subtotal: $20
             //   tax (10%):      $2
-            Check check = new Check(total: 2200, tax: 200);
+            PointOfSale check = new PointOfSale(total: 2200, tax: 200);
 
             // User pays $10 towards LevelUp
             // example does not consider exemptions
@@ -92,7 +92,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             //   Item subtotal: $20
             //   tax (10%):      $2
             //   TOTAL DUE:     $22
-            Check check = new Check(total: 2200, tax: 200);
+            PointOfSale check = new PointOfSale(total: 2200, tax: 200);
 
             // Cashier tenders $10 to cash
             // Updated check:
@@ -155,7 +155,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         {
             // $9.90 is owed, $0.90 of that is tax. $3.00 of that is tobacco/alcohol, and the customer wants to pay
             // $9.00 towards the check
-            Check check = new Check(total: 990, tax: 90);
+            PointOfSale check = new PointOfSale(total: 990, tax: 90);
             int exemptionAmount = 300;
             int spendAmount = 900;
 
@@ -217,7 +217,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         {
             // $22.00 is owed, $2.00 of that is tax. $0.00 of that is tobacco/alcohol, and the customer wants to pay
             // $12.00 towards the check all of which is discountable.
-            Check check = new Check(total: 2200, tax: 200);
+            PointOfSale check = new PointOfSale(total: 2200, tax: 200);
             int exemptionAmount = 0;
             int spendAmount = 1200;
 
@@ -280,7 +280,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         {
             // $22.00 is owed, $2.00 of that is tax. $0.00 of that is tobacco/alcohol, and the customer wants to pay
             // $12.00 towards the check all of which is discountable.
-            Check check = new Check(total: 1060, tax: 60);
+            PointOfSale check = new PointOfSale(total: 1060, tax: 60);
             int exemptionAmount = 0;
             int spendAmount = 530;
 
@@ -320,6 +320,61 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             AdjustedCheckValues completedOrderValues = ProposedOrderCalculator.CalculateCompleteOrderValues(
                 check.TotalOutstandingAmount,
                 check.TotalTaxAmount,
+                exemptionAmount,
+                spendAmount,
+                availableDiscountAmount);
+
+            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
+                $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
+                $"Actual: {completedOrderValues}");
+        }
+
+        [TestMethod]
+        public void SplitTenderExample_OneCentPaid_WhenOneCentOwed()
+        {
+            // $0.02 is owed, $0.01 of that is tax. $0.00 of that is tobacco/alcohol, and the customer wants to pay
+            // $0.01 towards the check none of which is discountable (after a $0.01 cash payment).
+            PointOfSale pointOfSale = new PointOfSale(total: 2, tax: 1);
+            int exemptionAmount = 0;
+            int spendAmount = 1;
+
+            pointOfSale.ApplyTender(1);
+
+            // Create proposed order: expected values
+            AdjustedCheckValues expectedProposedOrderValues =
+                new AdjustedCheckValues(
+                    spendAmount: 1,         // amount the customer wants to pay
+                    taxAmount: 1,           // tax will be due for this payment; tax will be paid "at the end"
+                    exemptionAmount: 0);    // there are no exemptions
+
+            AdjustedCheckValues proposedOrderValues = ProposedOrderCalculator.CalculateCreateProposedOrderValues(
+                pointOfSale.TotalOutstandingAmount,
+                pointOfSale.TotalTaxAmount,
+                exemptionAmount,
+                spendAmount);
+
+            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOrderValues,
+                $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
+                $"Actual: {proposedOrderValues}");
+
+            // available discount amount $0.00
+            int availableDiscountAmount = 0;
+
+            pointOfSale.ApplyDiscount(availableDiscountAmount);
+
+            // $ 0.00 (Subtotal Remaining)
+            // $ 0.01 (Tax)
+            // $ 0.01 (Total)
+            // $ 0.01 (Total + Discount Applied) 
+            AdjustedCheckValues expectedCompletedOrderValues =
+                new AdjustedCheckValues(
+                    spendAmount: 1,
+                    taxAmount: 1,
+                    exemptionAmount: 0);
+
+            AdjustedCheckValues completedOrderValues = ProposedOrderCalculator.CalculateCompleteOrderValues(
+                pointOfSale.TotalOutstandingAmount,
+                pointOfSale.TotalTaxAmount,
                 exemptionAmount,
                 spendAmount,
                 availableDiscountAmount);
