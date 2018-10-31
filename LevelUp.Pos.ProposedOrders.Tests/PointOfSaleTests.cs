@@ -29,7 +29,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.ShouldBeEquivalentTo(new AdjustedCheckValues(
+            proposedOrderValues.Should().BeEquivalentTo(new AdjustedCheckValues(
                 spendAmount: 1131,
                 taxAmount: 74,
                 exemptionAmount: 0));
@@ -47,7 +47,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.ShouldBeEquivalentTo(new AdjustedCheckValues(
+            completedOrderValues.Should().BeEquivalentTo(new AdjustedCheckValues(
                 spendAmount: 1131,
                 taxAmount: 74,
                 exemptionAmount: 0));

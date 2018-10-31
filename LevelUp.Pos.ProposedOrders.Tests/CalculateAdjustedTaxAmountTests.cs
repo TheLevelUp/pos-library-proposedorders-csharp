@@ -80,7 +80,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             };
 
             Action action = () => ProposedOrderCalculator.CalculateAdjustedTaxAmount(checkData);
-            action.ShouldThrow<Exception>();
+            action.Should().Throw<Exception>();
         }
     }
 }

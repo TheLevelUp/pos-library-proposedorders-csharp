@@ -54,7 +54,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.ShouldBeEquivalentTo(expectedProposedOderValues,
+            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOderValues,
                 $"Expected: {expectedProposedOderValues}" + Environment.NewLine +
                 $"Actual: {proposedOrderValues}");
 
@@ -79,7 +79,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.ShouldBeEquivalentTo(expectedCompletedOrderValues,
+            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
                 $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
                 $"Actual: {completedOrderValues}");
         }
@@ -118,7 +118,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.ShouldBeEquivalentTo(expectedProposedOderValues,
+            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOderValues,
                 $"Expected: {expectedProposedOderValues}" + Environment.NewLine +
                 $"Actual: {proposedOrderValues}");
 
@@ -145,7 +145,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.ShouldBeEquivalentTo(expectedCompletedOrderValues,
+            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
                 $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
                 $"Actual: {completedOrderValues}");
         }
@@ -172,7 +172,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.ShouldBeEquivalentTo(expectedProposedOrderValues,
+            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOrderValues,
                 $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
                 $"Actual: {proposedOrderValues}");
 
@@ -200,7 +200,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.ShouldBeEquivalentTo(expectedCompletedOrderValues,
+            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
                 $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
                 $"Actual: {completedOrderValues}");
         }
@@ -237,7 +237,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.ShouldBeEquivalentTo(expectedProposedOrderValues,
+            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOrderValues,
                 $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
                 $"Actual: {proposedOrderValues}");
 
@@ -265,7 +265,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.ShouldBeEquivalentTo(expectedCompletedOrderValues,
+            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
                 $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
                 $"Actual: {completedOrderValues}");
         }
@@ -297,7 +297,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.ShouldBeEquivalentTo(expectedProposedOrderValues,
+            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOrderValues,
                 $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
                 $"Actual: {proposedOrderValues}");
 
@@ -324,7 +324,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.ShouldBeEquivalentTo(expectedCompletedOrderValues,
+            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
                 $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
                 $"Actual: {completedOrderValues}");
         }
@@ -353,7 +353,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.ShouldBeEquivalentTo(expectedProposedOrderValues,
+            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOrderValues,
                 $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
                 $"Actual: {proposedOrderValues}");
 
@@ -379,7 +379,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.ShouldBeEquivalentTo(expectedCompletedOrderValues,
+            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
                 $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
                 $"Actual: {completedOrderValues}");
         }
