@@ -1,9 +1,11 @@
 # LevelUp POS Proposed Order Calculator
 
-- [Introduction](#introduction)
-- [Usage & Order Flow](#usage--order-flow)
-- [Build Instructions](#build-instructions)
-- [Links](#links)
+
+- [LevelUp POS Proposed Order Calculator](#levelup-pos-proposed-order-calculator)
+  - [Introduction](#introduction)
+  - [Usage & Order Flow](#usage--order-flow)
+  - [Build Instructions](#build-instructions)
+  - [Links](#links)
 
 ## Introduction
 For point-of-sale and point-of-sale-integration developers working with LevelUp and LevelUp's Proposed Orders flow, this library simplifies what a developer needs to know to create orders. Some common inbound questions include, "What happens if a customer only wants to pay part of the bill? What do I send LevelUp?" This tool will take care of that for you.
