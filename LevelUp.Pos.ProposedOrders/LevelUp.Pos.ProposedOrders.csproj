@@ -4,6 +4,7 @@
     <PackageId>LevelUp.Pos.ProposedOrderCalculator</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>$(SolutionDir)\nuget</PackageOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>SCVNGR Inc .: LevelUp</Authors>
     <Company>SCVNGR Inc .: LevelUp</Company>
     <PackageProjectUrl>https://www.thelevelup.com/developers</PackageProjectUrl>
@@ -13,10 +14,6 @@
     <RepositoryUrl>https://github.com/TheLevelUp/pos-proposed-orders-csharp</RepositoryUrl>
     <AssemblyName>LevelUp.Pos.ProposedOrders.ProposedOrderCalculator</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup>
-    <DocumentationFile>bin\Debug\netstandard2.0\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.xml</DocumentationFile>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="GitVersionTask" Version="4.0.0">
       <PrivateAssets>All</PrivateAssets>
