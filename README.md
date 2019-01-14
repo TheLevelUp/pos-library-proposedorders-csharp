@@ -1,5 +1,6 @@
 # LevelUp POS Proposed Order Calculator
 
+[![codecov](https://codecov.io/gh/TheLevelUp/pos-library-proposed-orders-csharp/branch/master/graph/badge.svg)](https://codecov.io/gh/TheLevelUp/pos-library-proposed-orders-csharp)
 
 - [LevelUp POS Proposed Order Calculator](#levelup-pos-proposed-order-calculator)
   - [Introduction](#introduction)
