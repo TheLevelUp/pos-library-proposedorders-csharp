@@ -75,7 +75,7 @@ Task("Test")
     OpenCover(
         tool => tool.DotNetCoreVSTest("**/bin/**/*Tests.dll"),
         new FilePath("./coverage.xml"),
-        new OpenCoverSettings { ReturnTargetCodeOffset = 0 }.WithFilter("+[*LevelUp*]*").WithFilter("-[*Tests*]*")
+        new OpenCoverSettings { ReturnTargetCodeOffset = 0, OldStyle = true }.WithFilter("+[*LevelUp*]*").WithFilter("-[*Tests*]*")
     );
 
      if(AppVeyor.IsRunningOnAppVeyor)
