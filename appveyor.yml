@@ -4,7 +4,7 @@ init:
   - git config --global core.autocrlf true
 
 build_script:
-  - cmd: PowerShell -Version 2.0 .\build.ps1 -Target Build -Configuration Release
+  - cmd: PowerShell -Version 2.0 .\build.ps1 -Configuration Release
 
 test: off
 
