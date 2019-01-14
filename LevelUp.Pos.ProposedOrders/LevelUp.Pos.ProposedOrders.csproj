@@ -3,6 +3,7 @@
     <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
     <PackageId>LevelUp.Pos.ProposedOrderCalculator</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>$(SolutionDir)\nuget</PackageOutputPath>
     <Authors>SCVNGR Inc .: LevelUp</Authors>
     <Company>SCVNGR Inc .: LevelUp</Company>
     <PackageProjectUrl>https://www.thelevelup.com/developers</PackageProjectUrl>
