@@ -117,3 +117,6 @@ UpgradeLog.htm
 tools/**
 tools/
 !tools/packages.config
+
+#Code Coverage
+coverage*

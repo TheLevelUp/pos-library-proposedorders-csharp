@@ -1,4 +1,8 @@
 #tool "nuget:?package=GitVersion.CommandLine"
+#tool "nuget:?package=OpenCover"
+#tool "nuget:?package=ReportGenerator"
+#tool "nuget:?package=Codecov"
+#addin "nuget:?package=Cake.Codecov"
 #addin "Cake.FileHelpers"
 #addin "Cake.AWS.S3"
 
@@ -59,7 +63,8 @@ Task("Build")
         EnvironmentVariables = new Dictionary<string, string> 
         {  
             { "GitVersion_NoFetchEnabled", "true" } 
-        }
+        },
+        ArgumentCustomization = arg => arg.AppendSwitch("/p:DebugType","=","Full")
     });
 });
 
@@ -67,7 +72,22 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    DotNetCoreVSTest("**/bin/**/*Tests.dll");
+    OpenCover(
+        tool => tool.DotNetCoreVSTest("**/bin/**/*Tests.dll"),
+        new FilePath("./coverage.xml"),
+        new OpenCoverSettings { ReturnTargetCodeOffset = 0 }.WithFilter("+[*LevelUp*]*").WithFilter("-[*Tests*]*")
+    );
+
+     if(AppVeyor.IsRunningOnAppVeyor)
+    {
+        Codecov("./coverage.xml", EnvironmentVariable("CODECOV_TOKEN"));
+    }
+    else
+    {
+        ReportGenerator("./coverage.xml", "./coverage", new ReportGeneratorSettings {
+            ReportTypes = new[] { ReportGeneratorReportType.HtmlSummary }
+        });
+    }
 });
 
 //////////////////////////////////////////////////////////////////////
