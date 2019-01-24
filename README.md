@@ -1,9 +1,17 @@
 # LevelUp POS Proposed Order Calculator
 
-- [Introduction](#introduction)
-- [Usage & Order Flow](#usage--order-flow)
-- [Build Instructions](#build-instructions)
-- [Links](#links)
+| Master | Latest |
+|--------|--------|
+|[![Build status](https://ci.appveyor.com/api/projects/status/jw5ugvgca1d20ke6/branch/master?svg=true)](https://ci.appveyor.com/project/LevelUpPOS/pos-library-proposed-orders-csharp/branch/master)|[![Build status](https://ci.appveyor.com/api/projects/status/jw5ugvgca1d20ke6?svg=true)](https://ci.appveyor.com/project/LevelUpPOS/pos-library-proposed-orders-csharp)|
+|[![Coverage Status](https://coveralls.io/repos/github/TheLevelUp/pos-library-proposed-orders-csharp/badge.svg?branch=master)](https://coveralls.io/github/TheLevelUp/pos-library-proposed-orders-csharp?branch=master)|[![Coverage Status](https://coveralls.io/repos/github/TheLevelUp/pos-library-proposed-orders-csharp/badge.svg)](https://coveralls.io/github/TheLevelUp/pos-library-proposed-orders-csharp)|
+
+
+
+- [LevelUp POS Proposed Order Calculator](#levelup-pos-proposed-order-calculator)
+  - [Introduction](#introduction)
+  - [Usage & Order Flow](#usage--order-flow)
+  - [Build Instructions](#build-instructions)
+  - [Links](#links)
 
 ## Introduction
 For point-of-sale and point-of-sale-integration developers working with LevelUp and LevelUp's Proposed Orders flow, this library simplifies what a developer needs to know to create orders. Some common inbound questions include, "What happens if a customer only wants to pay part of the bill? What do I send LevelUp?" This tool will take care of that for you.

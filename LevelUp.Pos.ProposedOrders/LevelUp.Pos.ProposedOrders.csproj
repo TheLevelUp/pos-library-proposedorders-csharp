@@ -3,23 +3,20 @@
     <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
     <PackageId>LevelUp.Pos.ProposedOrderCalculator</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>$(SolutionDir)\artifacts</PackageOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Authors>SCVNGR Inc .: LevelUp</Authors>
     <Company>SCVNGR Inc .: LevelUp</Company>
-    <PackageProjectUrl>https://www.thelevelup.com/developers</PackageProjectUrl>
-    <PackageLicenseUrl>https://www.thelevelup.com/developers</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/TheLevelUp/pos-library-proposed-orders-csharp</PackageProjectUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Description>Assists developers implementing the LevelUp proposed orders API.</Description>
     <Copyright>Copyright 2018</Copyright>
     <RepositoryUrl>https://github.com/TheLevelUp/pos-proposed-orders-csharp</RepositoryUrl>
     <AssemblyName>LevelUp.Pos.ProposedOrders.ProposedOrderCalculator</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup>
-    <DocumentationFile>bin\Debug\netstandard2.0\LevelUp.Pos.ProposedOrders.ProposedOrderCalculator.xml</DocumentationFile>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="GitVersionTask" Version="4.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-
 </Project>
