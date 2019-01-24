@@ -9,7 +9,7 @@ build_script:
 test: off
 
 artifacts:
-  - path: 'nuget\*'
+  - path: 'artifacts\*'
 
 deploy:
   - provider: Environment

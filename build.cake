@@ -1,8 +1,8 @@
 #tool "nuget:?package=GitVersion.CommandLine"
 #tool "nuget:?package=OpenCover"
 #tool "nuget:?package=ReportGenerator"
-#tool "nuget:?package=Codecov"
-#addin "nuget:?package=Cake.Codecov"
+#tool "nuget:?package=coveralls.io"
+#addin "nuget:?package=Cake.Coveralls"
 #addin "Cake.FileHelpers"
 #addin "Cake.AWS.S3"
 
@@ -80,7 +80,9 @@ Task("Test")
 
      if(AppVeyor.IsRunningOnAppVeyor)
     {
-        Codecov("./coverage.xml", EnvironmentVariable("CODECOV_TOKEN"));
+        CoverallsIo("./coverage.xml", new CoverallsIoSettings {
+            RepoToken = EnvironmentVariable("COVERALLS_TOKEN")
+        });
     }
     else
     {
