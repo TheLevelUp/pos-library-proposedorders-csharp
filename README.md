@@ -3,7 +3,7 @@
 | Master | Latest |
 |--------|--------|
 |[![Build status](https://ci.appveyor.com/api/projects/status/jw5ugvgca1d20ke6/branch/master?svg=true)](https://ci.appveyor.com/project/LevelUpPOS/pos-library-proposed-orders-csharp/branch/master)|[![Build status](https://ci.appveyor.com/api/projects/status/jw5ugvgca1d20ke6?svg=true)](https://ci.appveyor.com/project/LevelUpPOS/pos-library-proposed-orders-csharp)|
-|[![Coverage Status](https://coveralls.io/repos/github/TheLevelUp/pos-library-proposed-orders-csharp/badge.svg?branch=master)](https://coveralls.io/github/TheLevelUp/pos-library-proposed-orders-csharp?branch=master)|[![Coverage Status](https://coveralls.io/repos/github/TheLevelUp/pos-library-proposed-orders-csharp/badge.svg)](https://coveralls.io/github/TheLevelUp/pos-library-proposed-orders-csharp)|
+|[![Coverage Status](https://coveralls.io/repos/github/TheLevelUp/pos-library-proposed-orders-csharp/badge.svg?branch=master)](https://coveralls.io/github/TheLevelUp/pos-library-proposed-orders-csharp?branch=master)||
 
 
 
