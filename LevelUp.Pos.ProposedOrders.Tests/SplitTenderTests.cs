@@ -16,8 +16,6 @@
 // </license>
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #endregion
-
-using System;
 using LevelUp.Pos.ProposedOrders.Tests.Mocks;
 using NUnit.Framework;
 
@@ -29,6 +27,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         [Test]
         public void SplitTenderExample_LevelUp_Then_Cash()
         {
+            // Arrange
             // Split tender example: partial payment to LevelUp ($10) and remaining balance tendered to cash.
             // Check details (prior to LevelUp Scan)
             //   Item subtotal: $20
@@ -47,16 +46,19 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             AdjustedCheckValues expectedProposedOrderValues =
                 new AdjustedCheckValues(expectedSpendAmount, expectedTaxAmount, expectedExemptionAmount);
 
+            // Act
             AdjustedCheckValues proposedOrderValues = ProposedOrderCalculator.CalculateCreateProposedOrderValues(
                 check.TotalOutstandingAmount,
                 check.TotalTaxAmount,
                 exemptionAmount,
                 spendAmount);
-
+            
+            // Assert
             Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, proposedOrderValues.ExemptionAmount);
             Assert.AreEqual(expectedProposedOrderValues.SpendAmount, proposedOrderValues.SpendAmount);
             Assert.AreEqual(expectedProposedOrderValues.TaxAmount, proposedOrderValues.TaxAmount);
 
+            // Arrange
             // available discount amount $1
             int availableDiscountAmount = 100;
 
@@ -67,10 +69,11 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             // tax amount unchanged
             // spend amount unchanged
             // exemption amount unchanged
-
+                       
             AdjustedCheckValues expectedCompletedOrderValues =
                 new AdjustedCheckValues(expectedSpendAmount, expectedTaxAmount, expectedExemptionAmount);
 
+            // Arrange
             AdjustedCheckValues completedOrderValues = ProposedOrderCalculator.CalculateCompleteOrderValues(
                 check.TotalOutstandingAmount,
                 check.TotalTaxAmount,
@@ -78,6 +81,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
+            // Assert
             Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, completedOrderValues.ExemptionAmount);
             Assert.AreEqual(expectedProposedOrderValues.SpendAmount, completedOrderValues.SpendAmount);
             Assert.AreEqual(expectedProposedOrderValues.TaxAmount, completedOrderValues.TaxAmount);

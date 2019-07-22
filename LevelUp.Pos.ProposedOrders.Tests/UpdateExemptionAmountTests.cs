@@ -182,7 +182,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
 
         // of the $6.00 subtotal, only $5.01 is exempt; $6.00 - $4.01 = $1.99 can be paid before claiming responsibility for exemption amounts
         [TestCase(401, 400)]
-        public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_LessThan_CustomerPayment_Fringe(
+        public void CalculateOrderValues_WhenProposedOrderRequestIsMostlyExemptLessThanCustomerPayment(
             int exemptionAmount, int expectedExemptionAmount)
         {
             // Arrange

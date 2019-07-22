@@ -41,9 +41,9 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         }
 
         [Test]
-        [TestCase(950, 50)]  // Partial payment, payment requested > subtotal
+        [TestCase(950, 50)] // Partial payment, payment requested > subtotal
         [TestCase(500, 0)] // Partial payment, payment requested < subtotal
-        [TestCase(1, 0)]
+        [TestCase(1, 0)] // small payment, not enough for tax
         [TestCase(0, 0)] // Zero dollar payment; this order would get rejected by platform
         public void CalculateOrderValues_WhenProposedOrderRequestIsNotPaidInFull_UpdatesTaxAmount(
             int amountCustomerIsPaying, int expectedTax)
