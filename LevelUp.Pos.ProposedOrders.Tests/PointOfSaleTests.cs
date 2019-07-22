@@ -1,19 +1,19 @@
-﻿using FluentAssertions;
-using LevelUp.Pos.ProposedOrders.Tests.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using LevelUp.Pos.ProposedOrders.Tests.Mocks;
+using NUnit.Framework;
 
 namespace LevelUp.Pos.ProposedOrders.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class PointOfSaleTests
     {
         /// <summary>
         /// Simple test with (somewhat) arbitrary values that was added when a rounding error in the PointOfSale.cs
         /// class was discovered.
         /// </summary>
-        [TestMethod]
+        [Test]
         public void PointOfSaleTests_RoundingTest1()
         {
+            // Arrange
             PointOfSale pointOfSale = new PointOfSale(total: 1131, tax: 74);
 
             int exemptionAmount = 0;
@@ -22,23 +22,32 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             // apply tender(s)
             pointOfSale.ApplyTender(0);
 
+            var expectedProposedOrderValues = new AdjustedCheckValues(
+                spendAmount: 1131, taxAmount: 74, exemptionAmount: 0);
+            
+            // Act
             // prepare Proposed Order call
             AdjustedCheckValues proposedOrderValues = ProposedOrderCalculator.CalculateCreateProposedOrderValues(
                 pointOfSale.TotalOutstandingAmount,
                 pointOfSale.TotalTaxAmount,
                 exemptionAmount,
                 spendAmount);
-
-            proposedOrderValues.Should().BeEquivalentTo(new AdjustedCheckValues(
-                spendAmount: 1131,
-                taxAmount: 74,
-                exemptionAmount: 0));
-
+            
+            // Assert
+            Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, proposedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedProposedOrderValues.SpendAmount, proposedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedProposedOrderValues.TaxAmount, proposedOrderValues.TaxAmount);
+             
+            // Arrange
             // apply discount(s)
             int availableDiscountAmount = 0;
 
             pointOfSale.ApplyDiscount(availableDiscountAmount);
 
+            var expectedCompletedOrderValues = new AdjustedCheckValues(
+                spendAmount: 1131, taxAmount: 74, exemptionAmount: 0);
+            
+            // Act
             // prepare Completed Order call
             AdjustedCheckValues completedOrderValues = ProposedOrderCalculator.CalculateCompleteOrderValues(
                 pointOfSale.TotalOutstandingAmount,
@@ -47,10 +56,10 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.Should().BeEquivalentTo(new AdjustedCheckValues(
-                spendAmount: 1131,
-                taxAmount: 74,
-                exemptionAmount: 0));
+            // Assert
+            Assert.AreEqual(expectedCompletedOrderValues.ExemptionAmount, completedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedCompletedOrderValues.SpendAmount, completedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedCompletedOrderValues.TaxAmount, completedOrderValues.TaxAmount);
         }
     }
 }

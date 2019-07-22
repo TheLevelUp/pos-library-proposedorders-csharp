@@ -16,77 +16,48 @@
 // </license>
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #endregion
-
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace LevelUp.Pos.ProposedOrders.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class UpdateTaxAmountTests
     {
         // Paid In Full
-        [TestMethod]
-        public void UpdateTax_WhenProposedOrderRequest_IsPaidInFull()
+        [Test]
+        public void CalculateOrderValues_WhenProposedOrderRequestIsPaidInFull_ReturnsFullTaxAmount()
         {
+            // Arrange
             int outstandingTotalOnCheck = 1000;
             int taxAmount = 100;
             int amountCustomerIsPaying = 1000;
+            
+            // Act
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying).TaxAmount;
 
-            ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying)
-                .TaxAmount.Should()
-                .Be(taxAmount);
+            // Assert
+            Assert.AreEqual(taxAmount, result);
         }
 
-        // Partial payment, payment requested > subtotal
-        [TestMethod]
-        public void UpdateTax_WhenProposedOrderRequestIs_PartiallyPayingIntoTheTax()
+        [Test]
+        [TestCase(950, 50)]  // Partial payment, payment requested > subtotal
+        [TestCase(500, 0)] // Partial payment, payment requested < subtotal
+        [TestCase(1, 0)]
+        [TestCase(0, 0)] // Zero dollar payment; this order would get rejected by platform
+        public void CalculateOrderValues_WhenProposedOrderRequestIsNotPaidInFull_UpdatesTaxAmount(
+            int amountCustomerIsPaying, int expectedTax)
         {
+            // Arrange
             int outstandingTotalOnCheck = 1000;
             int taxAmount = 100;
-            int amountCustomerIsPaying = 950;
 
-            ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying)
-                .TaxAmount.Should()
-                .Be(50);
-        }
+            // Act
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying).TaxAmount;
 
-        // Partial payment, payment requested < subtotal
-        [TestMethod]
-        public void UpdateTax_WhenProposedOrderRequestIs_NotPaidInFull()
-        {
-            int outstandingTotalOnCheck = 1000;
-            int taxAmount = 100;
-            int amountCustomerIsPaying = 500;
-
-            ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying)
-                .TaxAmount.Should()
-                .Be(0);
-        }
-
-        [TestMethod]
-        public void UpdateTax_WhenProposedOrderRequestIs_PayingOneCent()
-        {
-            int outstandingTotalOnCheck = 1000;
-            int taxAmount = 100;
-            int amountCustomerIsPaying = 1;
-
-            ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying)
-                .TaxAmount.Should()
-                .Be(0);
-        }
-
-        // Zero dollar payment; this order would get rejected by platform
-        [TestMethod]
-        public void UpdateTax_WhenProposedOrderRequestIs_PayingNothing()
-        {
-            int outstandingTotalOnCheck = 1000;
-            int taxAmount = 100;
-            int amountCustomerIsPaying = 0;
-
-            ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, 0, amountCustomerIsPaying)
-                .TaxAmount.Should()
-                .Be(0);
+            // Assert
+            Assert.AreEqual(expectedTax, result);
         }
     }
 }

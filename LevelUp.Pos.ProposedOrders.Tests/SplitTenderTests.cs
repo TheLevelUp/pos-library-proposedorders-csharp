@@ -18,16 +18,15 @@
 #endregion
 
 using System;
-using FluentAssertions;
 using LevelUp.Pos.ProposedOrders.Tests.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace LevelUp.Pos.ProposedOrders.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class SplitTenderTests
     {
-        [TestMethod]
+        [Test]
         public void SplitTenderExample_LevelUp_Then_Cash()
         {
             // Split tender example: partial payment to LevelUp ($10) and remaining balance tendered to cash.
@@ -45,7 +44,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int expectedTaxAmount = 0;
             int expectedSpendAmount = 1000;
             int expectedExemptionAmount = 0;
-            AdjustedCheckValues expectedProposedOderValues =
+            AdjustedCheckValues expectedProposedOrderValues =
                 new AdjustedCheckValues(expectedSpendAmount, expectedTaxAmount, expectedExemptionAmount);
 
             AdjustedCheckValues proposedOrderValues = ProposedOrderCalculator.CalculateCreateProposedOrderValues(
@@ -54,9 +53,9 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOderValues,
-                $"Expected: {expectedProposedOderValues}" + Environment.NewLine +
-                $"Actual: {proposedOrderValues}");
+            Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, proposedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedProposedOrderValues.SpendAmount, proposedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedProposedOrderValues.TaxAmount, proposedOrderValues.TaxAmount);
 
             // available discount amount $1
             int availableDiscountAmount = 100;
@@ -79,12 +78,12 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
-                $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
-                $"Actual: {completedOrderValues}");
+            Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, completedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedProposedOrderValues.SpendAmount, completedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedProposedOrderValues.TaxAmount, completedOrderValues.TaxAmount);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitTenderExample_Cash_Then_LevelUp()
         {
             // Split tender example: partial payment to cash ($10) and remaining balance tendered to LevelUp.
@@ -109,7 +108,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             int expectedTaxAmount = 200;
             int expectedSpendAmount = 1200;
             int expectedExemptionAmount = 0;
-            AdjustedCheckValues expectedProposedOderValues =
+            AdjustedCheckValues expectedProposedOrderValues =
                 new AdjustedCheckValues(expectedSpendAmount, expectedTaxAmount, expectedExemptionAmount);
 
             AdjustedCheckValues proposedOrderValues = ProposedOrderCalculator.CalculateCreateProposedOrderValues(
@@ -118,9 +117,9 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOderValues,
-                $"Expected: {expectedProposedOderValues}" + Environment.NewLine +
-                $"Actual: {proposedOrderValues}");
+            Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, proposedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedProposedOrderValues.SpendAmount, proposedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedProposedOrderValues.TaxAmount, proposedOrderValues.TaxAmount);
 
             // available discount amount $1
             int availableDiscountAmount = 100;
@@ -144,13 +143,12 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount,
                 availableDiscountAmount);
-
-            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
-                $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
-                $"Actual: {completedOrderValues}");
+            Assert.AreEqual(expectedCompletedOrderValues.ExemptionAmount, completedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedCompletedOrderValues.SpendAmount, completedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedCompletedOrderValues.TaxAmount, completedOrderValues.TaxAmount);
         }
        
-        [TestMethod]
+        [Test]
         public void SplitTenderExample_NoChangeInSpendOrTax_AfterLevelUpPaidFirst()
         {
             // $9.90 is owed, $0.90 of that is tax. $3.00 of that is tobacco/alcohol, and the customer wants to pay
@@ -171,10 +169,10 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 check.TotalTaxAmount,
                 exemptionAmount,
                 spendAmount);
-
-            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOrderValues,
-                $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
-                $"Actual: {proposedOrderValues}");
+            
+            Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, proposedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedProposedOrderValues.SpendAmount, proposedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedProposedOrderValues.TaxAmount, proposedOrderValues.TaxAmount);
 
             // available discount amount $1
             int availableDiscountAmount = 100;
@@ -200,9 +198,9 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
-                $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
-                $"Actual: {completedOrderValues}");
+            Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, completedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedProposedOrderValues.SpendAmount, completedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedProposedOrderValues.TaxAmount, completedOrderValues.TaxAmount);
         }
         
         /// <summary>
@@ -212,7 +210,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         /// <remarks>
         /// In this example, the second payment will still be responsible for some tax.
         /// </remarks>
-        [TestMethod]
+        [Test]
         public void SplitTenderExample_SpendAndTaxAreAdjusted_WhenLevelUpDiscountApplied()
         {
             // $22.00 is owed, $2.00 of that is tax. $0.00 of that is tobacco/alcohol, and the customer wants to pay
@@ -237,9 +235,9 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOrderValues,
-                $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
-                $"Actual: {proposedOrderValues}");
+            Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, proposedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedProposedOrderValues.SpendAmount, proposedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedProposedOrderValues.TaxAmount, proposedOrderValues.TaxAmount);
 
             // available discount amount $10.00
             int availableDiscountAmount = 1000;
@@ -265,9 +263,10 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
-                $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
-                $"Actual: {completedOrderValues}");
+            Assert.AreEqual(expectedCompletedOrderValues.ExemptionAmount, completedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedCompletedOrderValues.SpendAmount, completedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedCompletedOrderValues.TaxAmount, completedOrderValues.TaxAmount);
+
         }
 
         /// <summary>
@@ -275,7 +274,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         /// was found which could result in the tax_amount being incorrectly adjusted (increasing) on the 
         /// CalculateCompleteOrderValues(); call.
         /// </summary>
-        [TestMethod]
+        [Test]
         public void SplitTenderExample_NoChangeInSpendOrTax_WhenMostOfCheckIsDiscounted()
         {
             // $22.00 is owed, $2.00 of that is tax. $0.00 of that is tobacco/alcohol, and the customer wants to pay
@@ -297,9 +296,9 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 exemptionAmount,
                 spendAmount);
 
-            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOrderValues,
-                $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
-                $"Actual: {proposedOrderValues}");
+            Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, proposedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedProposedOrderValues.SpendAmount, proposedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedProposedOrderValues.TaxAmount, proposedOrderValues.TaxAmount);
 
             // available discount amount $5.30
             int availableDiscountAmount = 530;
@@ -324,12 +323,12 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
-                $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
-                $"Actual: {completedOrderValues}");
+            Assert.AreEqual(expectedCompletedOrderValues.ExemptionAmount, completedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedCompletedOrderValues.SpendAmount, completedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedCompletedOrderValues.TaxAmount, completedOrderValues.TaxAmount);
         }
 
-        [TestMethod]
+        [Test]
         public void SplitTenderExample_OneCentPaid_WhenOneCentOwed()
         {
             // $0.02 is owed, $0.01 of that is tax. $0.00 of that is tobacco/alcohol, and the customer wants to pay
@@ -352,10 +351,10 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 pointOfSale.TotalTaxAmount,
                 exemptionAmount,
                 spendAmount);
-
-            proposedOrderValues.Should().BeEquivalentTo(expectedProposedOrderValues,
-                $"Expected: {expectedProposedOrderValues}" + Environment.NewLine +
-                $"Actual: {proposedOrderValues}");
+            
+            Assert.AreEqual(expectedProposedOrderValues.ExemptionAmount, proposedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedProposedOrderValues.SpendAmount, proposedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedProposedOrderValues.TaxAmount, proposedOrderValues.TaxAmount);
 
             // available discount amount $0.00
             int availableDiscountAmount = 0;
@@ -379,9 +378,9 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 spendAmount,
                 availableDiscountAmount);
 
-            completedOrderValues.Should().BeEquivalentTo(expectedCompletedOrderValues,
-                $"Expected: {expectedCompletedOrderValues}" + Environment.NewLine +
-                $"Actual: {completedOrderValues}");
+            Assert.AreEqual(expectedCompletedOrderValues.ExemptionAmount, completedOrderValues.ExemptionAmount);
+            Assert.AreEqual(expectedCompletedOrderValues.SpendAmount, completedOrderValues.SpendAmount);
+            Assert.AreEqual(expectedCompletedOrderValues.TaxAmount, completedOrderValues.TaxAmount);
         }
     }
 }

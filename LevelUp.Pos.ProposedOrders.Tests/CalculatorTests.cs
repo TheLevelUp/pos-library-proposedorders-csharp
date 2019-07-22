@@ -18,16 +18,15 @@
 #endregion
 
 using System;
-using FluentAssertions;
 using LevelUp.Pos.CheckCalculators.Tests.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace LevelUp.Pos.ProposedOrders.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class CalculatorTests
     {
-        [TestMethod]
+        [Test]
         public void RunTestBattery()
         {
             RunTestArray(CalculatorTestData.TestBattery);
@@ -37,6 +36,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         {
             for (int i = 0; i < values.GetLength(0); i++)
             {
+                // Arrange
                 int totalOutstandingAmount = values[i, 0];
                 int totalTaxAmount = values[i, 1];
                 int totalExemptionAmount = values[i, 2];
@@ -48,16 +48,18 @@ namespace LevelUp.Pos.ProposedOrders.Tests
 
                 AdjustedCheckValues expectedCheckValues =
                     new AdjustedCheckValues(expectedSpendAmount, expectedTaxAmount, expectedExemptionAmount);
-
+                
+                // Act
                 AdjustedCheckValues actualCheckValues = ProposedOrderCalculator.CalculateCreateProposedOrderValues(
                     totalOutstandingAmount,
                     totalTaxAmount,
                     totalExemptionAmount,
                     spendAmount);
 
-                actualCheckValues.Should().BeEquivalentTo(expectedCheckValues,
-                    "row={0}; Expected:{1}; Actual: {2}",
-                    i, expectedCheckValues, actualCheckValues, Environment.NewLine);
+                // Assert
+                Assert.AreEqual(expectedCheckValues.ExemptionAmount, actualCheckValues.ExemptionAmount);
+                Assert.AreEqual(expectedCheckValues.SpendAmount, actualCheckValues.SpendAmount);
+                Assert.AreEqual(expectedCheckValues.TaxAmount, actualCheckValues.TaxAmount);
             }
         }
     }
