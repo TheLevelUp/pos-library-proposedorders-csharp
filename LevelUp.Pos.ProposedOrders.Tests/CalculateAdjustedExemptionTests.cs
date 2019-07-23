@@ -1,127 +1,129 @@
-﻿using System;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
+using System;
 
 namespace LevelUp.Pos.ProposedOrders.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class CalculateAdjustedExemptionTests
     {
 
-        [TestMethod]
-        public void PaymentZero_ReturnsZero()
+        [Test]
+        [TestCase(500, 0)]
+        [TestCase(1, 0)]
+        public void CalculateAdjustedExemptionAmount_PaymentZero_ReturnsZero(
+            int exemptionAmount, int calculatedExemptionAmount)
         {
+            // Arrange
             var checkData = new CheckData
             {
                 OutstandingAmount = 1000,
                 TaxAmount = 0,
-                ExemptionAmount = 500,
+                ExemptionAmount = exemptionAmount,
                 PaymentAmount = 0
             };
 
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(0);
+            // Act
+            var result = ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData);
 
-            checkData.ExemptionAmount = 1;
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(0);
+            // Assert
+            Assert.AreEqual(calculatedExemptionAmount, result);
         }
 
-        [TestMethod]
-        public void PaymentLessThanNonExempt_ReturnsZero()
+
+        [Test]
+        [TestCase(500, 0)]
+        [TestCase(400, 0)]
+        [TestCase(499, 0)]
+        public void CalculateAdjustedExemptionAmount_PaymentLessThanNonExempt_ReturnsZero(
+            int exemptionAmount, int calculatedExemptionAmount)
         {
+            // Arrange
             var checkData = new CheckData
             {
                 OutstandingAmount = 1000,
                 TaxAmount = 0,
-                ExemptionAmount = 500,
+                ExemptionAmount = exemptionAmount,
                 PaymentAmount = 1
             };
 
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(0);
+            // Act
+            var result = ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData);
 
-            checkData.PaymentAmount = 400;
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(0);
-
-            checkData.PaymentAmount = 499;
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(0);
+            // Assert
+            Assert.AreEqual(calculatedExemptionAmount, result);
         }
 
-        [TestMethod]
-        public void PaymentGreaterThanNonExemptButLessThanPreTaxSubtotal_ReturnsPartialAmount()
+        [Test]
+        [TestCase(801, 1)]
+        [TestCase(900, 100)]
+        [TestCase(999, 199)]
+        public void CalculateAdjustedExemptionAmount_PaymentGreaterThanNonExemptButLessThanPreTaxSubtotal_ReturnsPartialAmount(
+            int paymentAmount, int calculatedExemptionAmount)
         {
             var checkData = new CheckData
             {
                 OutstandingAmount = 1000,
                 TaxAmount = 0,
                 ExemptionAmount = 200,
-                PaymentAmount = 801
+                PaymentAmount = paymentAmount
             };
-            // In this case, the partial amount should be payment - 800
 
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(1);
+            // Act
+            var result = ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData);
 
-            checkData.PaymentAmount = 900;
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(100);
-
-            checkData.PaymentAmount = 999;
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(199);
+            // Assert
+            Assert.AreEqual(calculatedExemptionAmount, result);
         }
 
-        [TestMethod]
-        public void PaymentAmountGreaterThanOrEqualToPreTaxSubtotal_ReturnsExemptionUnchanged()
+        [Test]
+        [TestCase(1000, 500)]
+        [TestCase(1100, 500)]
+        public void CalculateAdjustedExemptionAmount_PaymentAmountGreaterThanOrEqualToPreTaxSubtotal_ReturnsExemptionUnchanged(
+            int paymentAmount, int calculatedExemptionAmount)
         {
+            // Arrange
             var checkData = new CheckData
             {
                 OutstandingAmount = 1000,
                 TaxAmount = 0,
                 ExemptionAmount = 500,
-                PaymentAmount = 1000
+                PaymentAmount = paymentAmount
             };
-            // PreTaxSubtotal = 1000
 
-            // Payment = PreTaxSubtotal
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(500);
+            // Act
+            var result = ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData);
 
-            // Payment > PreTaxSubtotal
-            checkData.PaymentAmount = 1100;
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(500);
+            // Assert
+            Assert.AreEqual(calculatedExemptionAmount, result);
         }
 
-        [TestMethod]
-        public void ExemptEqualsPreTaxSubtotal_PaymentLessThanPreTaxSubtotal_ReturnPaymentAmount()
+        [Test]
+        [TestCase(1, 1)]
+        [TestCase(500, 500)]
+        [TestCase(999, 999)]
+        public void CalculateAdjustedExemptionAmount_ExemptEqualToSubtotalandPaymentLessThanSubtotal_ReturnsPaymentAmount(
+            int paymentAmount, int calculatedExemptedAmount)
         {
+            // Arrange
             var checkData = new CheckData
             {
                 OutstandingAmount = 1000,
                 TaxAmount = 0,
                 ExemptionAmount = 1000,
-                PaymentAmount = 1
+                PaymentAmount = paymentAmount
             };
 
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(1);
+            // Act
+            var result = ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData);
 
-            checkData.PaymentAmount = 500;
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(500);
-
-            checkData.PaymentAmount = 999;
-            ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData)
-                .Should().Be(999);
+            // Assert
+            Assert.AreEqual(calculatedExemptedAmount, result);
         }
 
-        [TestMethod]
-        public void ExemptAmountGreaterThanPreTaxOutstanding_ThrowsException()
+        [Test]
+        public void CalculateAdjustedExemptionAmount_ExemptAmountGreaterThanPreTaxOutstanding_ThrowsException()
         {
+            // Arrange
             var checkData = new CheckData
             {
                 OutstandingAmount = 1000,
@@ -130,8 +132,11 @@ namespace LevelUp.Pos.ProposedOrders.Tests
                 PaymentAmount = 500
             };
 
-            Action action = () => ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData);
-            action.Should().Throw<Exception>();
+            // Act
+            TestDelegate action = () => ProposedOrderCalculator.CalculateAdjustedExemptionAmount(checkData);
+
+            // Assert
+            Assert.Throws<Exception>(action);
         }
     }
 }

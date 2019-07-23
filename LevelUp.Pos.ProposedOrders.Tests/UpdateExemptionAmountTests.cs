@@ -16,340 +16,186 @@
 // </license>
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #endregion
-
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace LevelUp.Pos.ProposedOrders.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class UpdateExemptionAmountTests
     {
-        #region Partial Payments
-
-        [TestClass]
-        public class PaidInFull
+        // Too much is exempt
+        [Test]
+        [TestCase(1200, 900)] // Significantly over total
+        [TestCase(1001, 900)] // Slightly over total
+        public void CalculateOrderValues_WhenExemptAmountIsMoreThanTotal_ReturnsTotalAsExemptAmount(
+            int exemptionAmount, int expectedExemptionAmount)
         {
-            // Too much is exempt
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_TooMuchIsExempt_MoreThanTotal()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 1200;
-                int amountCustomerIsPaying = 1000;
+            // Arrange
+            int outstandingTotalOnCheck = 1000;
+            int taxAmount = 100;
+            int amountCustomerIsPaying = 1000;
 
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(900);
-            }
+            // Act
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying).ExemptionAmount;
 
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_TooMuchIsExempt_LessThanTotal()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 1050;
-                int amountCustomerIsPaying = 1000;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(900);
-            }
-
-            // Order is fully exempt
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_FullyExempt()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 1000;
-                int amountCustomerIsPaying = 1000;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(900);
-            }
-
-            // Order not exempt at all
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_FullyNotExempt()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 0;
-                int amountCustomerIsPaying = 1000;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(0);
-            }
-
-            // Some of the order is exempt
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_PartiallyExempt_SmallExemption()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 100;
-                int amountCustomerIsPaying = 1000;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(100);
-            }
-
-            // Most of the order is exempt
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_LessThanSubtotal()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 899;
-                int amountCustomerIsPaying = 1000;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(899);
-            }
-
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_EqualToSubtotal()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 900;
-                int amountCustomerIsPaying = 1000;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(900);
-            }
-
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_GreaterThanSubtotal()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 901;
-                int amountCustomerIsPaying = 1000;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(900);
-            }
+            // Assert
+            Assert.AreEqual(expectedExemptionAmount, result);
         }
 
-        #endregion
-
-        #region Partial Payments
-
-        [TestClass]
-        public class PartialPayments
+        // Order is fully exempt
+        [Test]
+        public void CalculateOrderValues_WhenProposedOrderRequestIsFullyExempt_ReturnsPaymentAmountMinusTax()
         {
-            // Too much is exempt
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_TooMuchIsExempt_MoreThanTotal()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 1200;
-                int amountCustomerIsPaying = 500;
+            int outstandingTotalOnCheck = 1000;
+            int taxAmount = 100;
+            int exemptionAmount = 1000;
+            int amountCustomerIsPaying = 1000;
 
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(500);
-            }
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying).ExemptionAmount;
 
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_TooMuchIsExempt_LessThanTotal()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 1050;
-                int amountCustomerIsPaying = 500;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(500);
-            }
-
-            // Order is fully exempt
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_FullyExempt()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 1000;
-                int amountCustomerIsPaying = 500;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(500);
-            }
-
-            // Order not exempt at all
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_FullyNotExempt()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 0;
-                int amountCustomerIsPaying = 500;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(0);
-            }
-
-            // Some of the order is exempt
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_PartiallyExempt_SmallExemption()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 100;
-                int amountCustomerIsPaying = 500;
-
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(0);
-            }
-
-            // Most of the order is exempt
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_LessThan_CustomerPayment()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 499;
-                int amountCustomerIsPaying = 500;
-
-                // of the $9.00 subtotal, only $4.99 is exempt; $9.00 - $4.99 = $4.01 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(99);
-            }
-
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_EqualTo_CustomerPayment()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 500;
-                int amountCustomerIsPaying = 500;
-
-                // of the $9.00 subtotal, only $5.00 is exempt; $9.00 - $5.00 = $4.00 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(100);
-            }
-
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_GreaterThan_CustomerPayment()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 501;
-                int amountCustomerIsPaying = 500;
-
-                // of the $9.00 subtotal, only $5.01 is exempt; $9.00 - $5.01 = $3.99 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(101);
-            }
-
-            // Most of the order is exempt
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_LessThan_CustomerPayment_Fringe()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 399;
-                int amountCustomerIsPaying = 500;
-
-                // of the $9.00 subtotal, only $4.99 is exempt; $9.00 - $3.99 = $5.01 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(0);
-            }
-
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_EqualTo_CustomerPayment_Fringe()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 400;
-                int amountCustomerIsPaying = 500;
-
-                // of the $9.00 subtotal, only $5.00 is exempt; $9.00 - $4.00 = $5.00 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(0);
-            }
-
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_GreaterThan_CustomerPayment_Fringe()
-            {
-                int outstandingTotalOnCheck = 1000;
-                int taxAmount = 100;
-                int exemptionAmount = 401;
-                int amountCustomerIsPaying = 500;
-
-                // of the $9.00 subtotal, only $5.01 is exempt; $9.00 - $4.01 = $4.99 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(1);
-            }
+            Assert.AreEqual(900, result);
         }
 
-        [TestClass]
-        public class CherryPickedPartialPayments
+        // Order not exempt at all
+        [Test]
+        public void CalculateOrderValues_WhenProposedOrderRequestIsFullyNotExempt_ReturnsZero()
         {
-            // Most of the order is exempt
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_LessThan_CustomerPayment_Fringe()
-            {
-                int outstandingTotalOnCheck = 600;
-                int taxAmount = 200;
-                int exemptionAmount = 399;
-                int amountCustomerIsPaying = 500;
+            int outstandingTotalOnCheck = 1000;
+            int taxAmount = 100;
+            int exemptionAmount = 0;
+            int amountCustomerIsPaying = 1000;
 
-                // of the $6.00 subtotal, only $4.99 is exempt; $6.00 - $3.99 = $2.01 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(399);
-            }
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying).ExemptionAmount;
 
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_EqualTo_CustomerPayment_Fringe()
-            {
-                int outstandingTotalOnCheck = 600;
-                int taxAmount = 200;
-                int exemptionAmount = 400;
-                int amountCustomerIsPaying = 500;
-
-                // of the $6.00 subtotal, only $5.00 is exempt; $6.00 - $4.00 = $2.00 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(400);
-            }
-
-            [TestMethod]
-            public void UpdateExemption_WhenProposedOrderRequestIs_MostlyExempt_GreaterThan_CustomerPayment_Fringe()
-            {
-                int outstandingTotalOnCheck = 600;
-                int taxAmount = 200;
-                int exemptionAmount = 401;
-                int amountCustomerIsPaying = 500;
-
-                // of the $6.00 subtotal, only $5.01 is exempt; $6.00 - $4.01 = $1.99 can be paid before claiming responsibility for exemption amounts
-                ProposedOrderCalculator.CalculateOrderValues(outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying)
-                    .ExemptionAmount.Should()
-                    .Be(400);
-            }
+            Assert.AreEqual(0, result);
         }
 
-        #endregion
+        // Order is partially exempt
+        [Test]
+        [TestCase(100, 100)] // Small Amount Exempt
+        [TestCase(899, 899)] // Mostly Exempt
+        [TestCase(900, 900)] // Equal to Pre-Tax Subtotal
+        [TestCase(901, 900)] // Greater than Pre-Tax Subtotal, less than total.
+        public void CalculateOrderValues_WhenProposedOrderRequestIsPartiallyExempt_ReturnsPartOfTotal(
+            int exemptionAmount, int expectedExemptionAmount)
+        {
+            int outstandingTotalOnCheck = 1000;
+            int taxAmount = 100;
+            int amountCustomerIsPaying = 1000;
+
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying).ExemptionAmount;
+
+            Assert.AreEqual(expectedExemptionAmount, result);
         }
+
+        // Too much is exempt
+        [Test]
+        [TestCase(1200, 500)] // More than Outstanding Total
+        [TestCase(1050, 500)] // More than Payment Amount
+        public void CalculateOrderValues_WhenExemptIsMoreThanSubtotalAndPaymentAmount_ReturnPaymentAmount(
+            int exemptionAmount, int expectedExemptionAmount)
+        {
+            int outstandingTotalOnCheck = 1000;
+            int taxAmount = 100;
+            int amountCustomerIsPaying = 500;
+
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying).ExemptionAmount;
+
+            Assert.AreEqual(expectedExemptionAmount, result);
+        }
+
+        // Order is fully exempt
+        [Test]
+        public void CalculateOrderValues_WhenProposedOrderRequestIsFullyExempt_ReturnsPaymentAmount()
+        {
+            int outstandingTotalOnCheck = 1000;
+            int taxAmount = 100;
+            int exemptionAmount = 1000;
+            int amountCustomerIsPaying = 500;
+
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying).ExemptionAmount;
+
+            Assert.AreEqual(500, result);
+        }
+
+        // Order not exempt at all
+        [Test]
+        public void CalculateOrderValues_WhenProposedOrderRequestIsFullyNotExemptWithPartialPayment_ReturnsZero()
+        {
+            int outstandingTotalOnCheck = 1000;
+            int taxAmount = 100;
+            int exemptionAmount = 0;
+            int amountCustomerIsPaying = 500;
+
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying).ExemptionAmount;
+
+            Assert.AreEqual(0, result);
+        }
+
+        // Some of the order is exempt
+        [Test]
+        [TestCase(100, 0)] // Small amount is exempt
+
+        // of the $9.00 subtotal, only $4.99 is exempt; $9.00 - $4.99 = $4.01 can be paid before claiming responsibility for exemption amounts
+        [TestCase(499, 99)] // Most is exempt
+
+        // of the $9.00 subtotal, only $5.00 is exempt; $9.00 - $5.00 = $4.00 can be paid before claiming responsibility for exemption amounts
+        [TestCase(500, 100)] // Most is exempt
+
+        // of the $9.00 subtotal, only $5.01 is exempt; $9.00 - $5.01 = $3.99 can be paid before claiming responsibility for exemption amounts
+        [TestCase(501, 101)] // Mostly exempt, more than customer payment.
+
+        // of the $9.00 subtotal, only $4.99 is exempt; $9.00 - $3.99 = $5.01 can be paid before claiming responsibility for exemption amounts
+        [TestCase(399, 0)]
+
+        // of the $9.00 subtotal, only $5.00 is exempt; $9.00 - $4.00 = $5.00 can be paid before claiming responsibility for exemption amounts
+        [TestCase(400, 0)]
+
+        // of the $9.00 subtotal, only $5.01 is exempt; $9.00 - $4.01 = $4.99 can be paid before claiming responsibility for exemption amounts
+        [TestCase(401, 1)]
+        public void CalculateOrderValues_WhenProposedOrderRequestIsPartiallyExempt(
+            int exemptionAmount, int expectedExemptionAmount)
+        {
+            int outstandingTotalOnCheck = 1000;
+            int taxAmount = 100;
+            int amountCustomerIsPaying = 500;
+
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying).ExemptionAmount;
+
+            Assert.AreEqual(expectedExemptionAmount, result);
+        }
+
+        [Test]
+        // of the $6.00 subtotal, only $4.99 is exempt; $6.00 - $3.99 = $2.01 can be paid before claiming responsibility for exemption amounts
+        [TestCase(399, 399)] // Mostly Exempt
+
+        // of the $6.00 subtotal, only $5.00 is exempt; $6.00 - $4.00 = $2.00 can be paid before claiming responsibility for exemption amounts
+        [TestCase(400, 400)]
+
+        // of the $6.00 subtotal, only $5.01 is exempt; $6.00 - $4.01 = $1.99 can be paid before claiming responsibility for exemption amounts
+        [TestCase(401, 400)]
+        public void CalculateOrderValues_WhenProposedOrderRequestIsMostlyExemptLessThanCustomerPayment(
+            int exemptionAmount, int expectedExemptionAmount)
+        {
+            // Arrange
+            int outstandingTotalOnCheck = 600;
+            int taxAmount = 200;
+            int amountCustomerIsPaying = 500;
+
+            // Act
+            var result = ProposedOrderCalculator.CalculateOrderValues(
+                outstandingTotalOnCheck, taxAmount, exemptionAmount, amountCustomerIsPaying).ExemptionAmount;
+
+            // Assert
+            Assert.AreEqual(expectedExemptionAmount, result);
+        }
+    }
 }

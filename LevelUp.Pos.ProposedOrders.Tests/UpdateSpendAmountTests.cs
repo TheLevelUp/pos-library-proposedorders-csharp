@@ -16,61 +16,75 @@
 // </license>
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #endregion
-
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace LevelUp.Pos.ProposedOrders.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class UpdateSpendAmountTests
     {
         // Payment requested > total due
-        [TestMethod]
+        [Test]
         public void UpdateSpend_WhenProposedOrderRequestIs_PayingTooMuch()
         {
+            // Arrange
             int outstandingTotalOnCheck = 1000;
             int amountCustomerIsPaying = 1200;
 
-            ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
-                .PaymentAmount.Should()
-                .Be(outstandingTotalOnCheck);
+            // Act
+            var result = ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
+                .PaymentAmount;
+
+            // Assert
+            Assert.AreEqual(outstandingTotalOnCheck, result);
         }
 
         // Paid In Full
-        [TestMethod]
+        [Test]
         public void UpdateSpend_WhenProposedOrderRequestIs_PaidInFull()
         {
+            // Arrange
             int outstandingTotalOnCheck = 1000;
             int amountCustomerIsPaying = 1000;
+            
+            // Act
+            var result = ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
+                .PaymentAmount;
 
-            ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
-                .PaymentAmount.Should()
-                .Be(amountCustomerIsPaying);
+            // Assert
+            Assert.AreEqual(amountCustomerIsPaying, result);
         }
 
         // Partial payment, payment requested < subtotal
-        [TestMethod]
+        [Test]
         public void UpdateSpend_WhenProposedOrderRequestIs_PartialPayment()
         {
+            // Arrange
             int outstandingTotalOnCheck = 1000;
             int amountCustomerIsPaying = 800;
 
-            ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
-                .PaymentAmount.Should()
-                .Be(amountCustomerIsPaying);
+            // Act
+            var result = ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
+                .PaymentAmount;
+
+            // Assert
+            Assert.AreEqual(amountCustomerIsPaying, result);
         }
 
         // Zero dollar payment
-        [TestMethod]
+        [Test]
         public void UpdateSpend_WhenProposedOrderRequestIs_PayingZero()
         {
+            // Arrange
             int outstandingTotalOnCheck = 1000;
             int amountCustomerIsPaying = 0;
 
-            ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
-                .PaymentAmount.Should()
-                .Be(amountCustomerIsPaying);
+            // Act
+            var result = ProposedOrderCalculator.SanitizeData(outstandingTotalOnCheck, 0, 0, amountCustomerIsPaying)
+                .PaymentAmount;
+
+            // Assert
+            Assert.AreEqual(amountCustomerIsPaying, result);
         }
     }
 }
