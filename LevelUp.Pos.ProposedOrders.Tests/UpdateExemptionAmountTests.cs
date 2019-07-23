@@ -26,7 +26,7 @@ namespace LevelUp.Pos.ProposedOrders.Tests
         // Too much is exempt
         [Test]
         [TestCase(1200, 900)] // Significantly over total
-        [TestCase(1050, 900)] // Slightly over total
+        [TestCase(1001, 900)] // Slightly over total
         public void CalculateOrderValues_WhenExemptAmountIsMoreThanTotal_ReturnsTotalAsExemptAmount(
             int exemptionAmount, int expectedExemptionAmount)
         {

@@ -73,7 +73,6 @@ namespace LevelUp.Pos.ProposedOrders.Tests
             AdjustedCheckValues expectedCompletedOrderValues =
                 new AdjustedCheckValues(expectedSpendAmount, expectedTaxAmount, expectedExemptionAmount);
 
-            // Arrange
             AdjustedCheckValues completedOrderValues = ProposedOrderCalculator.CalculateCompleteOrderValues(
                 check.TotalOutstandingAmount,
                 check.TotalTaxAmount,
