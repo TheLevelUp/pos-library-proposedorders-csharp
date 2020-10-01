@@ -16,10 +16,10 @@
 // </license>
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #endregion
-using LevelUp.Pos.ProposedOrders.Tests.Mocks;
+using Grubhub.ProposedOrders.Tests.Mocks;
 using NUnit.Framework;
 
-namespace LevelUp.Pos.ProposedOrders.Tests
+namespace Grubhub.ProposedOrders.Tests
 {
     [TestFixture]
     public class SplitTenderTests

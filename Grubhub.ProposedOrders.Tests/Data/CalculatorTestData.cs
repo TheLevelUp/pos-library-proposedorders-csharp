@@ -17,7 +17,7 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #endregion
 
-namespace LevelUp.Pos.CheckCalculators.Tests.Data
+namespace Grubhub.CheckCalculators.Tests.Data
 {
     public static class CalculatorTestData
     {

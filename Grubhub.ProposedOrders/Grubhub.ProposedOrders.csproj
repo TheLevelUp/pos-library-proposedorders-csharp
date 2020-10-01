@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
-    <PackageId>LevelUp.Pos.ProposedOrderCalculator</PackageId>
+    <PackageId>Grubhub.ProposedOrderCalculator</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>$(SolutionDir)\artifacts</PackageOutputPath>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -12,10 +12,10 @@
     <Description>Assists developers implementing the LevelUp proposed orders API.</Description>
     <Copyright>Copyright 2018</Copyright>
     <RepositoryUrl>https://github.com/TheLevelUp/pos-proposed-orders-csharp</RepositoryUrl>
-    <AssemblyName>LevelUp.Pos.ProposedOrders.ProposedOrderCalculator</AssemblyName>
+    <AssemblyName>Grubhub.ProposedOrders.ProposedOrderCalculator</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="4.0.0">
+    <PackageReference Include="GitVersionTask" Version="5.3.7">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>

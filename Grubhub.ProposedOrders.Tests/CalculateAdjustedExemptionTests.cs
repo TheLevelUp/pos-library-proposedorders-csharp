@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 
-namespace LevelUp.Pos.ProposedOrders.Tests
+namespace Grubhub.ProposedOrders.Tests
 {
     [TestFixture]
     public class CalculateAdjustedExemptionTests
