@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LevelUp.Pos.ProposedOrders.Tests.Mocks
+namespace Grubhub.ProposedOrders.Tests.Mocks
 {
     /// <summary>
     /// This class is meant to streamline expected calculations from a typical point of sale for the purpose of 

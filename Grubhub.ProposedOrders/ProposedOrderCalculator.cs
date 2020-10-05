@@ -7,7 +7,7 @@
 //   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 //   in compliance with the License. You may obtain a copy of the License at
 //
-//       http://www.apache.org/licenses/LICENSE-2.0
+//       http://www.apache.org/licenses/LICENSE-2.0xmlns
 //
 //   Unless required by applicable law or agreed to in writing, software distributed under the License
 //   is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
@@ -20,8 +20,8 @@
 using System;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("LevelUp.Pos.ProposedOrders.Tests")]
-namespace LevelUp.Pos.ProposedOrders
+[assembly: InternalsVisibleTo("Grubhub.ProposedOrders.Tests")]
+namespace Grubhub.ProposedOrders
 {
     public class AdjustedCheckValues
     {
@@ -62,7 +62,7 @@ namespace LevelUp.Pos.ProposedOrders
         /// <param name="taxAmount">The current tax due on the check, in cents.</param>
         /// <param name="exemptAmount">The current total of exempted items on the check, in cents.</param>
         /// <param name="paymentAmount">The amount the customer would like to spend, in cents.</param>
-        /// <returns>LevelUp.Pos.ProposedOrderCalculator.CalculateCreateProposedOrderValues</returns>
+        /// <returns>Grubhub.ProposedOrderCalculator.CalculateCreateProposedOrderValues</returns>
         public static AdjustedCheckValues CalculateCreateProposedOrderValues(
             int outstandingAmount,
             int taxAmount,
@@ -86,7 +86,7 @@ namespace LevelUp.Pos.ProposedOrders
         /// <param name="exemptAmount">The current total of exempted items on the check, in cents.</param>
         /// <param name="paymentAmount">The amount the customer would like to spend, in cents.</param>
         /// <param name="appliedDiscountAmount">The discount amount applied to the point of sale for the customer.</param>
-        /// <returns>LevelUp.Pos.ProposedOrderCalculator.CalculateCompleteOrderValues</returns>
+        /// <returns>Grubhub.ProposedOrderCalculator.CalculateCompleteOrderValues</returns>
         public static AdjustedCheckValues CalculateCompleteOrderValues(
             int outstandingAmount,
             int taxAmount,

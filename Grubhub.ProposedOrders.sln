@@ -8,9 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelUp.Pos.ProposedOrders", "LevelUp.Pos.ProposedOrders\LevelUp.Pos.ProposedOrders.csproj", "{55C553EA-DCE8-4C5C-BDF6-396B93E34C0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grubhub.ProposedOrders", "Grubhub.ProposedOrders\Grubhub.ProposedOrders.csproj", "{55C553EA-DCE8-4C5C-BDF6-396B93E34C0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelUp.Pos.ProposedOrders.Tests", "LevelUp.Pos.ProposedOrders.Tests\LevelUp.Pos.ProposedOrders.Tests.csproj", "{8D4C1742-8E61-435E-9C86-19D10270FA1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grubhub.ProposedOrders.Tests", "Grubhub.ProposedOrders.Tests\Grubhub.ProposedOrders.Tests.csproj", "{8D4C1742-8E61-435E-9C86-19D10270FA1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

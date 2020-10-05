@@ -1,13 +1,13 @@
-# LevelUp POS Proposed Order Calculator
+# Grubhub Proposed Order Calculator
 
 | Master | Latest |
 |--------|--------|
-|[![Build status](https://ci.appveyor.com/api/projects/status/jw5ugvgca1d20ke6/branch/master?svg=true)](https://ci.appveyor.com/project/LevelUpPOS/pos-library-proposed-orders-csharp/branch/master)|[![Build status](https://ci.appveyor.com/api/projects/status/jw5ugvgca1d20ke6?svg=true)](https://ci.appveyor.com/project/LevelUpPOS/pos-library-proposed-orders-csharp)|
-|[![Coverage Status](https://coveralls.io/repos/github/TheLevelUp/pos-library-proposed-orders-csharp/badge.svg?branch=master)](https://coveralls.io/github/TheLevelUp/pos-library-proposed-orders-csharp?branch=master)||
+|[![Build status](https://ci.appveyor.com/api/projects/status/jw5ugvgca1d20ke6/branch/master?svg=true)](https://ci.appveyor.com/project/LevelUpPOS/pos-library-proposedorders-csharp/branch/master)|[![Build status](https://ci.appveyor.com/api/projects/status/jw5ugvgca1d20ke6?svg=true)](https://ci.appveyor.com/project/LevelUpPOS/pos-library-proposedorders-csharp)|
+|[![Coverage Status](https://coveralls.io/repos/github/TheLevelUp/pos-library-proposedorders-csharp/badge.svg?branch=master)](https://coveralls.io/github/TheLevelUp/pos-library-proposedorders-csharp?branch=master)||
 
 
 
-- [LevelUp POS Proposed Order Calculator](#levelup-pos-proposed-order-calculator)
+- [Grubhub Proposed Order Calculator](#grubhub-proposed-order-calculator)
   - [Introduction](#introduction)
   - [Usage & Order Flow](#usage--order-flow)
   - [Build Instructions](#build-instructions)
@@ -16,7 +16,7 @@
 ## Introduction
 For point-of-sale and point-of-sale-integration developers working with LevelUp and LevelUp's Proposed Orders flow, this library simplifies what a developer needs to know to create orders. Some common inbound questions include, "What happens if a customer only wants to pay part of the bill? What do I send LevelUp?" This tool will take care of that for you.
 
-The [`ProposedOrderCalculator`](LevelUp.Pos.ProposedOrders/ProposedOrderCalculator.cs) accepts known check values such as:
+The [`ProposedOrderCalculator`](Grubhub.ProposedOrders/ProposedOrderCalculator.cs) accepts known check values such as:
 
 - The current outstanding amount (including tax) due on the check.
 - The current tax amount on the check.
@@ -32,9 +32,9 @@ The [`ProposedOrderCalculator`](LevelUp.Pos.ProposedOrders/ProposedOrderCalculat
 ## Usage & Order Flow
 Using this library with Proposed Orders is simple.
 
-1. Just before a customer pays with LevelUp, retrieve the total due (including tax), the tax due, the total amount of exempted items, and the amount your customer wants to pay and put them into variables. Pass those values to [`ProposedOrderCalculator.CalculateCreateProposedOrderValues(...)`](LevelUp.Pos.ProposedOrders/ProposedOrderCalculator.cs#L54) before calling [`/v15/proposed_orders`](http://developer.thelevelup.com/api-reference/v15/orders-create-proposed/).
+1. Just before a customer pays with LevelUp, retrieve the total due (including tax), the tax due, the total amount of exempted items, and the amount your customer wants to pay and put them into variables. Pass those values to [`ProposedOrderCalculator.CalculateCreateProposedOrderValues(...)`](Grubhub.ProposedOrders/ProposedOrderCalculator.cs#L54) before calling [`/v15/proposed_orders`](http://developer.thelevelup.com/api-reference/v15/orders-create-proposed/).
 
-2. After applying any LevelUp discount available (returned in the previous API response), the total due (including tax), and the tax due have likely been changed; retrieve those again. Send the original exemption amount and customer payment amount along with the discount you applied to [`ProposedOrderCalculator.CalculateCompleteOrderValues(...)`](LevelUp.Pos.ProposedOrders/ProposedOrderCalculator.cs#L83) before calling [`/v15/completed_orders`](http://developer.thelevelup.com/api-reference/v15/orders-create-completed/).
+2. After applying any LevelUp discount available (returned in the previous API response), the total due (including tax), and the tax due have likely been changed; retrieve those again. Send the original exemption amount and customer payment amount along with the discount you applied to [`ProposedOrderCalculator.CalculateCompleteOrderValues(...)`](Grubhub.ProposedOrders/ProposedOrderCalculator.cs#L83) before calling [`/v15/completed_orders`](http://developer.thelevelup.com/api-reference/v15/orders-create-completed/).
 
 ```csharp
 class Program

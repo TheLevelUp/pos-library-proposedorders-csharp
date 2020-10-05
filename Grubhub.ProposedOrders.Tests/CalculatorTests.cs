@@ -18,10 +18,10 @@
 #endregion
 
 using System;
-using LevelUp.Pos.CheckCalculators.Tests.Data;
+using Grubhub.CheckCalculators.Tests.Data;
 using NUnit.Framework;
 
-namespace LevelUp.Pos.ProposedOrders.Tests
+namespace Grubhub.ProposedOrders.Tests
 {
     [TestFixture]
     public class CalculatorTests
